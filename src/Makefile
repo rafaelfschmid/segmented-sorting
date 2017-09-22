@@ -4,7 +4,7 @@
 
 arch=-gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_37,code=sm_37 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_52,code=compute_52
 
-all: mergeseg radixseg fixcub fixthrust nthrust 
+all: mergeseg radixseg fixcub fixthrust nthrust fixseq nseq
 
 mergeseg: mergeseg.cu
 	nvcc $(arch) mergeseg.cu -o mergeseg.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
@@ -20,4 +20,12 @@ fixthrust: fixthrust.cu
 
 nthrust: nthrust.cu
 	nvcc $(arch) nthrust.cu -o nthrust.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+
+fixseq: fixseq.cu
+	nvcc $(arch) fixseq.cu -o fixseq.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+
+mseq: mseq.cu
+	nvcc $(arch) mseq.cu -o mseq.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+
+
 
