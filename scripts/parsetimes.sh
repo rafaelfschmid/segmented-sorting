@@ -5,6 +5,8 @@ dir=$1
 ./parser.exe $dir/mergeseg.time $dir/00mergeseg.time
 ./parser.exe $dir/radixseg.time $dir/00radixseg.time
 ./parser1024.exe $dir/nthrust.time $dir/00nthrust.time
+./parser.exe $dir/fixseq.time $dir/00fixseq.time
+./parser.exe $dir/mseq.time $dir/00mseq.time
 
 #./utils/parser.exe $dir/fixpass.time $dir/00fixpass.time
 #./parser.exe $dir/fixpassdiff.time $dir/00fixpassdiff.time

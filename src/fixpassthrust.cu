@@ -67,9 +67,11 @@ int main(void) {
 		}
 	}
 
-	cudaEvent_t start, stop;
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
+	cudaEvent_t startPre, stopPre, startPos, stopPos;
+	cudaEventCreate(&startPre);
+	cudaEventCreate(&stopPre);
+	cudaEventCreate(&startPos);
+	cudaEventCreate(&stopPos);
 
 	thrust::device_vector<uint> d_vec(num_of_elements);
 	thrust::device_vector<uint> d_seg = h_seg;
@@ -79,7 +81,7 @@ int main(void) {
 		/*
 		 * maximum element of the array.
 		 */
-		cudaEventRecord(start);
+		cudaEventRecord(startPre);
 		thrust::device_vector<uint>::iterator iter = thrust::max_element(d_vec.begin(), d_vec.end());
 		uint max_val = *iter;
 		uint mostSignificantBit = (uint)log2((double)max_val) + 1;
@@ -88,6 +90,8 @@ int main(void) {
 		 */
 		Operation< uint, thrust::plus<uint> > op_plus(mostSignificantBit);
 		thrust::transform(d_vec.begin(), d_vec.end(), d_seg.begin(), d_vec.begin(), op_plus);
+		cudaEventRecord(stopPre);
+		cudaEventSynchronize(stopPre);
 		/*
 		 * sort the segments
 		 */
@@ -95,16 +99,17 @@ int main(void) {
 		/*
 		 * update back the array elements
 		 */
-
+		cudaEventRecord(startPos);
 		Operation< uint, thrust::minus<uint> > op_minus(mostSignificantBit);
 		thrust::transform(d_vec.begin(), d_vec.end(), d_seg.begin(), d_vec.begin(), op_minus);
-		cudaEventRecord(stop);
-		cudaEventSynchronize(stop);
+		cudaEventRecord(stopPos);
+		cudaEventSynchronize(stopPos);
 
 		if (ELAPSED_TIME == 1) {
-			float milliseconds = 0;
-			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
+			float millisecondsPre = 0, millisecondsPos = 0;
+			cudaEventElapsedTime(&millisecondsPre, startPre, stopPre);
+			cudaEventElapsedTime(&millisecondsPos, startPos, stopPos);
+			std::cout << millisecondsPre + millisecondsPos << "\n";
 		}
 
 		cudaError_t errSync = cudaGetLastError();

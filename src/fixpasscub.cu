@@ -107,9 +107,11 @@ int main(void) {
 		}
 	}
 
-	cudaEvent_t start, stop;
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
+	cudaEvent_t startPre, stopPre, startPos, stopPos;
+	cudaEventCreate(&startPre);
+	cudaEventCreate(&stopPre);
+	cudaEventCreate(&startPos);
+	cudaEventCreate(&stopPos);
 
 	uint *d_value, *d_value_out, *d_vec, *d_vec_out, *d_max, *d_seg;
 	void *d_temp_storage = NULL;
@@ -136,7 +138,7 @@ int main(void) {
 		/*
 		 * maximum element of the array.
 		 */
-		cudaEventRecord(start);
+		cudaEventRecord(startPre);
 		cub::DeviceReduce::Max(d_temp_storage, temp_storage_bytes, d_vec, d_max, num_of_elements);
 		cudaMalloc(&d_temp_storage, temp_storage_bytes);	// Allocate temporary storage
 		cub::DeviceReduce::Max(d_temp_storage, temp_storage_bytes, d_vec, d_max, num_of_elements);	// Run max-reduction
@@ -145,6 +147,9 @@ int main(void) {
 		 * add prefix to the elements
 		 */
 		adjustment<Plus<uint>> <<< grid, BLOCK_SIZE>>>(d_vec, d_seg, num_of_elements, d_max);
+		cudaEventRecord(stopPre);
+		cudaEventSynchronize(stopPre);
+
 		/*
 		 * sort the vector
 		 */
@@ -161,14 +166,16 @@ int main(void) {
 		if (errAsync != cudaSuccess)
 			printf("4: Async kernel error: %s\n", cudaGetErrorString(errAsync));
 
+		cudaEventRecord(startPos);
 		adjustment<Minus<uint>> <<< grid, BLOCK_SIZE>>>(d_vec_out, d_seg, num_of_elements, d_max);
-		cudaEventRecord(stop);
-		cudaEventSynchronize(stop);
+		cudaEventRecord(stopPos);
+		cudaEventSynchronize(stopPos);
 
 		if (ELAPSED_TIME == 1) {
-			float milliseconds = 0;
-			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
+			float millisecondsPre = 0, millisecondsPos = 0;
+			cudaEventElapsedTime(&millisecondsPre, startPre, stopPre);
+			cudaEventElapsedTime(&millisecondsPos, startPos, stopPos);
+			std::cout << millisecondsPre + millisecondsPos << "\n";
 		}
 
 		cudaFree(d_temp_storage);
