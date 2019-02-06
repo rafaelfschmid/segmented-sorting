@@ -65,11 +65,9 @@ int main(void) {
 		thrust::copy(h_vec.begin(), h_vec.end(), d_vec.begin());
 
 		cudaEventRecord(start);
-		for (int i = 0; i < num_of_segments; i+=2) {
+		for (int i = 0; i < num_of_segments; i+=1) {
 			thrust::sort(thrust::cuda::par.on(streams[0]), d_vec.begin() + h_seg[i],
 					d_vec.begin() + h_seg[i + 1]);
-			thrust::sort(thrust::cuda::par.on(streams[1]), d_vec.begin() + h_seg[i+1],
-					d_vec.begin() + h_seg[i + 2]);
 
 		}
 		cudaEventRecord(stop);
