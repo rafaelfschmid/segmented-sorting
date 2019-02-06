@@ -36,5 +36,7 @@ fixpassseq: fixpassseq.cu
 mseq: mseq.cu
 	nvcc $(arch) mseq.cu -o mseq.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
+newthrust: newthrust.cu
+	nvcc $(arch) newthrust.cu -o newthrust.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
 
