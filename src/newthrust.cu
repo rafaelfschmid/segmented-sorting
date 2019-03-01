@@ -26,7 +26,6 @@
 #define NUM_STREAMS 3
 #endif
 
-
 void print(thrust::host_vector<int> h_vec) {
 	std::cout << "\n";
 	for (int i = 0; i < h_vec.size(); i++) {
