@@ -23,7 +23,7 @@
 #endif
 
 #ifndef NUM_STREAMS
-#define NUM_STREAMS 3
+#define NUM_STREAMS 4
 #endif
 
 void print(thrust::host_vector<int> h_vec) {
@@ -64,9 +64,16 @@ int main(void) {
 		thrust::copy(h_vec.begin(), h_vec.end(), d_vec.begin());
 
 		cudaEventRecord(start);
-		for (int i = 0; i < num_of_segments; i++) {
+		for (int i = 0; i < num_of_segments; i+=4) {
 			thrust::sort(thrust::cuda::par.on(streams[0]), d_vec.begin() + h_seg[i],
 					d_vec.begin() + h_seg[i + 1]);
+			thrust::sort(thrust::cuda::par.on(streams[1]), d_vec.begin() + h_seg[i+1],
+					d_vec.begin() + h_seg[i + 2]);
+
+			thrust::sort(thrust::cuda::par.on(streams[2]), d_vec.begin() + h_seg[i+2],
+					d_vec.begin() + h_seg[i + 3]);
+			thrust::sort(thrust::cuda::par.on(streams[3]), d_vec.begin() + h_seg[i+3],
+					d_vec.begin() + h_seg[i + 4]);
 		}
 		cudaEventRecord(stop);
 
@@ -85,6 +92,8 @@ int main(void) {
 	if (ELAPSED_TIME != 1) {
 		print(h_vec);
 	}
+
+	cudaFree(streams);
 
 	return 0;
 }

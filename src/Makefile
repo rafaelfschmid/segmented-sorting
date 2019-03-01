@@ -39,4 +39,12 @@ mseq: mseq.cu
 newthrust: newthrust.cu
 	nvcc $(arch) newthrust.cu -o newthrust.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
+newthrust1stream: newthrust1stream.cu
+	nvcc $(arch) newthrust1stream.cu -o newthrust1stream.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+
+ncub: ncub.cu
+	nvcc $(arch) ncub.cu -o ncub.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+
+nmoderngpu: nmoderngpu.cu
+	nvcc $(arch) nmoderngpu.cu -o nmoderngpu.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
