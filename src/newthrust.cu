@@ -53,7 +53,8 @@ int main(void) {
 
 	cudaStream_t streams[NUM_STREAMS];
 	for(int i = 0; i < NUM_STREAMS; i++) {
-		cudaStreamCreate(&streams[i]);
+		//cudaStreamCreate(&streams[i]);
+		cudaStreamCreateWithFlags(&streams[i],cudaStreamNonBlocking);
 	}
 
 	for (uint i = 0; i < EXECUTIONS; i++) {
