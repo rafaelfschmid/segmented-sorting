@@ -96,11 +96,8 @@ int main(int argc, char** argv) {
 	int elements_per_segment = num_of_elements/num_of_segments;
 
 	// allocate and initialize an array of stream handles
-	cudaStream_t *streams = (cudaStream_t *) malloc(nStreams * sizeof(cudaStream_t));
-	for(int i = 0; i < nStreams; i++) {
-			cudaStreamCreate(&streams[i]);
-			//cudaStreamCreateWithFlags(&streams[i],cudaStreamNonBlocking);
-		}
+	cudaStream_t stream;
+	cudaStreamCreate(&stream);
 
 	for (int i = 0; i < EXECUTIONS; i++) {
 
@@ -109,15 +106,13 @@ int main(int argc, char** argv) {
 
 		cudaEventRecord(start);
 		if(elements_per_segment < 1024) {
-						printf("########ERRROOORRRRR#######");
-						printf("Number of elements per segment less than minimum.");
-					//uint threadCount = bitonicSort(d_vec_out, d_value_out, d_vec, d_value,num_of_segments, elements_per_segment, 1, stream);
-				}
+				printf("########ERRROOORRRRR#######");
+				printf("Number of elements per segment less than minimum.");
+			//uint threadCount = bitonicSort(d_vec_out, d_value_out, d_vec, d_value,num_of_segments, elements_per_segment, 1, stream);
+		}
 		else {
-			for (int j = 0; j < num_of_segments; j+=nStreams) {
-				for (int k = 0; k < nStreams; k++) {
-					uint threadCount = bitonicSort(d_vec_out+h_seg[j+k], d_value_out+h_seg[j+k], d_vec+h_seg[j+k], d_value+h_seg[j+k], 1, num_of_elements/num_of_segments, 1, streams[k]);
-				}
+			for (int j = 0; j < num_of_segments; j++) {
+				uint threadCount = bitonicSort(d_vec_out+h_seg[j], d_value_out+h_seg[j], d_vec+h_seg[j], d_value+h_seg[j], 1, num_of_elements/num_of_segments, 1, stream);
 			}
 		}
 		cudaEventRecord(stop);
