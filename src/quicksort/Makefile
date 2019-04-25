@@ -19,10 +19,7 @@ build: quicksort.exe
 quicksort.o: quicksort.cu
 	$(NVCC) $(ALL_CCFLAGS) -dc $(GEN_CODE_FLAGS) $(ALL_FLAGS) $(VARIABLES) -o $@ -c $<
 
-bitonicsort.o: bitonicsort.cu
-	$(NVCC) $(ALL_CCFLAGS) -dc $(GEN_CODE_FLAGS) $(VARIABLES) -o $@ -c $<
-
-quicksort.exe: quicksort.o bitonicsort.o
+quicksort.exe: quicksort.o 
 	$(NVCC) $(GEN_CODE_FLAGS) -o $@ $+
 
 run: build
