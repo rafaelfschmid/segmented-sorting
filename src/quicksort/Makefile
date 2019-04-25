@@ -1,7 +1,7 @@
 #TIME=1
 #EXECS=10
 ################################################################################
-INCLUDES  := -I/usr/local/cuda-7.5/samples/common/inc
+INCLUDES  := -I$(CUDA_HOME)/samples/common/inc
 LIBRARIES := -lcuda
 NVCC := nvcc
 GCC_LIB_COMP := -ccbin g++ 
