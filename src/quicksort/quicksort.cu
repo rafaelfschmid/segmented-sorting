@@ -16,12 +16,36 @@
 #define MAX_DEPTH       16
 #define INSERTION_SORT  32
 
+#ifndef NUM_STREAMS
+#define NUM_STREAMS 16
+#endif
+
+void cudaTest(cudaError_t error) {
+	if (error != cudaSuccess) {
+		printf("cuda returned error %s (code %d), line(%d)\n",
+				cudaGetErrorString(error), error, __LINE__);
+		exit (EXIT_FAILURE);
+	}
+}
+
+void print(uint* host_data, uint n, uint m) {
+	std::cout << "\n";
+	for (uint i = 0; i < n; i++) {
+		for (uint j = 0; j < m; j++) {
+			std::cout << host_data[i * m + j] << " ";
+		}
+		std::cout << "\n";
+	}
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Selection sort used when depth gets too big or the number of elements drops
 // below a threshold.
 ////////////////////////////////////////////////////////////////////////////////
 __device__ void selection_sort(unsigned int *data, int left, int right)
 {
+	//printf("left=%d right=%d \n", left, right);
     for (int i = left ; i <= right ; ++i)
     {
         unsigned min_val = data[i];
@@ -124,44 +148,29 @@ void run_qsort(unsigned int *data, unsigned int nitems)
     // Prepare CDP for the max depth 'MAX_DEPTH'.
     checkCudaErrors(cudaDeviceSetLimit(cudaLimitDevRuntimeSyncDepth, MAX_DEPTH));
 
-    // Launch on device
     int left = 0;
     int right = nitems-1;
-    std::cout << "Launching kernel on the GPU" << std::endl;
+//    std::cout << "Launching kernel on the GPU" << std::endl;
     cdp_simple_quicksort<<< 1, 1 >>>(data, left, right, 0);
     checkCudaErrors(cudaDeviceSynchronize());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Initialize data on the host.
-////////////////////////////////////////////////////////////////////////////////
-void initialize_data(unsigned int *dst, unsigned int nitems)
-{
-    // Fixed seed for illustration
-    srand(2047);
-
-    // Fill dst with random values
-    for (unsigned i = 0 ; i < nitems ; i++)
-        dst[i] = rand() % nitems ;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // Verify the results.
 ////////////////////////////////////////////////////////////////////////////////
-void check_results(int n, unsigned int *results_d)
+void check_results(int n, int m, unsigned int *results_h)
 {
-    unsigned int *results_h = new unsigned[n];
-    checkCudaErrors(cudaMemcpy(results_h, results_d, n*sizeof(unsigned), cudaMemcpyDeviceToHost));
-
-    for (int i = 1 ; i < n ; ++i)
-        if (results_h[i-1] > results_h[i])
-        {
-            std::cout << "Invalid item[" << i-1 << "]: " << results_h[i-1] << " greater than " << results_h[i] << std::endl;
-            exit(EXIT_FAILURE);
-        }
+    for (int i = 0 ; i < n ; ++i) {
+    	for (uint j = 1; j < m; j++) {
+    		if (results_h[i*m +j -1] > results_h[i*m +j])
+			{
+				std::cout << "Invalid item[" << j-1 << "]: " << results_h[i*m +j -1] << " greater than " << results_h[i*m +j] << std::endl;
+				exit(EXIT_FAILURE);
+			}
+    	}
+    }
 
     std::cout << "OK" << std::endl;
-    delete[] results_h;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -169,112 +178,86 @@ void check_results(int n, unsigned int *results_d)
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char **argv)
 {
-    int num_items = 128;
-    bool verbose = false;
+	uint num_of_segments;
+	uint num_of_elements;
+	uint i;
 
-    if (checkCmdLineFlag(argc, (const char **)argv, "help") ||
-        checkCmdLineFlag(argc, (const char **)argv, "h"))
-    {
-        std::cerr << "Usage: " << argv[0] << " num_items=<num_items>\twhere num_items is the number of items to sort" << std::endl;
-        exit(EXIT_SUCCESS);
-    }
+	scanf("%d", &num_of_segments);
+	uint mem_size_seg = sizeof(uint) * (num_of_segments+1);
+	uint *h_seg = (uint *) malloc(mem_size_seg);
+	for (i = 0; i <= num_of_segments; i++) {
+		scanf("%d", &h_seg[i]);
+	}
 
-    if (checkCmdLineFlag(argc, (const char **)argv, "v"))
-    {
-        verbose = true;
-    }
+	scanf("%d", &num_of_elements);
+	uint mem_size_vec = sizeof(uint) * num_of_elements;
+	uint *h_vec = (uint *) malloc(mem_size_vec);
+	for (i = 0; i < num_of_elements; i++){
+		scanf("%d", &h_vec[i]);
+	}
 
-    if (checkCmdLineFlag(argc, (const char **)argv, "num_items"))
-    {
-        num_items = getCmdLineArgumentInt(argc, (const char **)argv, "num_items");
+	cudaStream_t streams[NUM_STREAMS];
+	for(int i = 0; i < NUM_STREAMS; i++) {
+		cudaStreamCreate(&streams[i]);
+	}
 
-        if (num_items < 1)
-        {
-            std::cerr << "ERROR: num_items has to be greater than 1" << std::endl;
-            exit(EXIT_FAILURE);
-        }
-    }
+	int nstreams = NUM_STREAMS;
+	if(NUM_STREAMS > num_of_segments)
+		nstreams = num_of_segments;
 
-    // Get device properties
-    int device_count = 0, device = -1;
-    
-    if(checkCmdLineFlag(argc, (const char **)argv, "device"))
-    {
-        device = getCmdLineArgumentInt(argc, (const char **)argv, "device");
-        
-        cudaDeviceProp properties;
-        checkCudaErrors(cudaGetDeviceProperties(&properties, device));
-        
-        if (properties.major > 3 || (properties.major == 3 && properties.minor >= 5))
-        {
-            std::cout << "Running on GPU " << device << " (" << properties.name << ")" << std::endl;
-        }
-        else
-        {
-            std::cout << "ERROR: cdpsimpleQuicksort requires GPU devices with compute SM 3.5 or higher."<< std::endl;
-            std::cout << "Current GPU device has compute SM" << properties.major <<"."<< properties.minor <<". Exiting..." << std::endl;
-            exit(EXIT_FAILURE);
-        }
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
 
-    }
-    else
-    {
-        checkCudaErrors(cudaGetDeviceCount(&device_count));
-    
-        for (int i = 0 ; i < device_count ; ++i)
-        {
-            cudaDeviceProp properties;
-            checkCudaErrors(cudaGetDeviceProperties(&properties, i));
+	uint *d_vec;
 
-            if (properties.major > 3 || (properties.major == 3 && properties.minor >= 5))
-            {
-                device = i;
-                std::cout << "Running on GPU " << i << " (" << properties.name << ")" << std::endl;
-                break;
-            }
+	cudaTest(cudaMalloc((void **) &d_vec, mem_size_vec));
+	//print(h_vec, num_of_segments,num_of_elements/num_of_segments);
 
-            std::cout << "GPU " << i << " (" << properties.name << ") does not support CUDA Dynamic Parallelism" << std::endl;
-         }
-     }
+	for (int i = 0; i < EXECUTIONS; i++) {
 
-    if (device == -1)
-    {
-        std::cerr << "cdpSimpleQuicksort requires GPU devices with compute SM 3.5 or higher.  Exiting..." << std::endl;
-        exit(EXIT_WAIVED);
-    }
+		cudaTest(cudaMemcpy(d_vec, h_vec, mem_size_vec, cudaMemcpyHostToDevice));
 
-    cudaSetDevice(device);
+		cudaEventRecord(start);
+		for(int j = 0; j < num_of_segments; j+=nstreams) {
+			//run_qsort(d_vec+h_seg[j], num_of_elements/num_of_segments);
+			for(int s = 0; s < nstreams; s++) {
+				cdp_simple_quicksort<<< 1, 1, 0, streams[s] >>>(d_vec, h_seg[j+s], h_seg[j+1+s]-1, 0);
+			}
 
-    // Create input data
-    unsigned int *h_data = 0;
-    unsigned int *d_data = 0;
+		}
+		cudaEventRecord(stop);
 
-    // Allocate CPU memory and initialize data.
-    std::cout << "Initializing data:" << std::endl;
-    h_data =(unsigned int *)malloc(num_items*sizeof(unsigned int));
-    initialize_data(h_data, num_items);
+		cudaError_t errSync = cudaGetLastError();
+		cudaError_t errAsync = cudaDeviceSynchronize();
+		if (errSync != cudaSuccess)
+			printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
+		if (errAsync != cudaSuccess)
+			printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 
-    if (verbose)
-    {
-        for (int i=0 ; i<num_items ; i++)
-            std::cout << "Data [" << i << "]: " << h_data[i] << std::endl;
-    }
+		if (ELAPSED_TIME == 1) {
+			cudaEventSynchronize(stop);
+			float milliseconds = 0;
+			cudaEventElapsedTime(&milliseconds, start, stop);
+			std::cout << milliseconds << "\n";
+		}
 
-    // Allocate GPU memory.
-    checkCudaErrors(cudaMalloc((void **)&d_data, num_items * sizeof(unsigned int)));
-    checkCudaErrors(cudaMemcpy(d_data, h_data, num_items * sizeof(unsigned int), cudaMemcpyHostToDevice));
+		cudaDeviceSynchronize();
+	}
 
-    // Execute
-    std::cout << "Running quicksort on " << num_items << " elements" << std::endl;
-    run_qsort(d_data, num_items);
+	cudaMemcpy(h_vec, d_vec, mem_size_vec, cudaMemcpyDeviceToHost);
 
-    // Check result
-    std::cout << "Validating results: ";
-    check_results(num_items, d_data);
+	cudaFree(d_vec);
 
-    free(h_data);
-    checkCudaErrors(cudaFree(d_data));
+	if (ELAPSED_TIME != 1) {
+		//print(h_vec, num_of_segments, num_of_elements/num_of_segments);
+		check_results(num_of_segments, num_of_elements/num_of_segments, h_vec);
+	}
 
-    exit(EXIT_SUCCESS);
+	free(h_vec);
+
+	return 0;
 }
+
+
 
