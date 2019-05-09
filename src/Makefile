@@ -1,6 +1,8 @@
 #TIME=1
 #BITS=12
 #EXECS=1
+#STREAMS=32
+
 
 arch=-gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_37,code=sm_37 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_60,code=sm_60
 
@@ -47,4 +49,18 @@ ncub: ncub.cu
 
 nmoderngpu: nmoderngpu.cu
 	nvcc $(arch) nmoderngpu.cu -o nmoderngpu.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+
+mergesort: mergesort.cu
+	#for STREAMS in 1 8 16 32 ; do \
+		nvcc $(arch) mergesort.cu -o mergesort$${STREAMS}.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$${STREAMS} ; \
+	done
+	nvcc $(arch) mergesort.cu -o mergesort.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) ; \
+
+
+simplemergesort: simplemergesort.cu
+	nvcc $(arch) simplemergesort.cu -o simplemergesort.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -I/usr/local/cuda/samples/common/inc ; \
+
+#	for STREAMS in 1 8 16 32 ; do \
+#	nvcc $(arch) mergesort.cu -o mergesort$${STREAMS}.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$${STREAMS} ; \
+#	done
 

@@ -15,6 +15,7 @@
 #include <thrust/sort.h>
 #include <thrust/copy.h>
 
+#include <future>
 #include <chrono>
 #include <iostream>
 
@@ -32,6 +33,11 @@ void print(thrust::host_vector<int> h_vec) {
 		std::cout << h_vec[i] << " ";
 	}
 	std::cout << "\n";
+}
+
+void kernelCall(cudaStream_t stream, thrust::device_vector<uint>& d_vec,
+		thrust::host_vector<uint> h_seg, int i){
+	//thrust::sort(thrust::cuda::par.on(stream),d_vec.begin() + h_seg[i], d_vec.begin() + h_seg[i + 1]);
 }
 
 int main(void) {
@@ -66,7 +72,7 @@ int main(void) {
 
 		cudaEventRecord(start);
 		for (int i = 0; i < num_of_segments; i+=4) {
-			thrust::sort(thrust::cuda::par.on(streams[0]), d_vec.begin() + h_seg[i],
+			/*thrust::sort(thrust::cuda::par.on(streams[0]), d_vec.begin() + h_seg[i],
 					d_vec.begin() + h_seg[i + 1]);
 			thrust::sort(thrust::cuda::par.on(streams[1]), d_vec.begin() + h_seg[i+1],
 					d_vec.begin() + h_seg[i + 2]);
@@ -74,7 +80,11 @@ int main(void) {
 			thrust::sort(thrust::cuda::par.on(streams[2]), d_vec.begin() + h_seg[i+2],
 					d_vec.begin() + h_seg[i + 3]);
 			thrust::sort(thrust::cuda::par.on(streams[3]), d_vec.begin() + h_seg[i+3],
-					d_vec.begin() + h_seg[i + 4]);
+					d_vec.begin() + h_seg[i + 4]);*/
+			std::async(std::launch::async, &kernelCall,streams[0], d_vec, h_seg, i);
+			//std::async(kernelCall,streams[1], d_vec, h_seg, i+1);
+			//std::async(kernelCall,streams[2], d_vec, h_seg, i+2);
+			//std::async(kernelCall,streams[3], d_vec, h_seg, i+3);
 		}
 		cudaEventRecord(stop);
 

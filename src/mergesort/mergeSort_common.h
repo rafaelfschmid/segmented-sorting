@@ -18,7 +18,9 @@ typedef unsigned int uint;
 
 #define SHARED_SIZE_LIMIT 1024U
 #define     SAMPLE_STRIDE 128
-
+#include <cuda_runtime.h>
+#include <helper_functions.h>
+#include <helper_cuda.h>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +65,8 @@ extern "C" void mergeSort(
     uint *srcKey,
     uint *srcVal,
     uint N,
-    uint sortDir
+    uint sortDir,
+    cudaStream_t stream
 );
 
 

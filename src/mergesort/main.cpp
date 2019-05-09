@@ -18,7 +18,7 @@
 #include "mergeSort_common.h"
 
 #ifndef NUM_STREAMS
-#define NUM_STREAMS 16
+#define NUM_STREAMS 1
 #endif
 
 void print(uint* host_data, uint n, uint m) {
@@ -88,6 +88,7 @@ int main(int argc, char **argv) {
 	cudaEventCreate(&stop);
 
 	uint *d_SrcKey, *d_SrcVal, *d_BufKey, *d_BufVal, *d_DstKey, *d_DstVal;
+	int elements_per_segment = num_of_elements/num_of_segments;
 
 	checkCudaErrors(cudaMalloc((void **) &d_DstKey, mem_size_vec));
 	checkCudaErrors(cudaMalloc((void **) &d_DstVal, mem_size_vec));
@@ -105,13 +106,17 @@ int main(int argc, char **argv) {
 
 		printf("Running GPU merge sort...\n");
 		cudaEventRecord(start);
-		//for (int j = 0; j < num_of_segments; j += nstreams) {
-//			for (int s = 0; s < nstreams; s++) {
+		for (int j = 0; j < num_of_segments; j += nstreams) {
+			for (int s = 0; s < nstreams; s++) {
+				mergeSort(d_DstKey+h_seg[j+s], d_DstVal+h_seg[j+s],
+						  d_BufKey+h_seg[j+s], d_BufVal+h_seg[j+s],
+						  d_SrcKey+h_seg[j+s], d_SrcVal+h_seg[j+s],
+						  elements_per_segment, DIR, streams[s]);
+				printf("stream id=%d ", s);
+			}
 
-//			}
+		}
 
-		//}
-		mergeSort(d_DstKey, d_DstVal, d_BufKey, d_BufVal, d_SrcKey, d_SrcVal, num_of_elements, DIR);
 		cudaEventRecord(stop);
 		cudaError_t errSync = cudaGetLastError();
 		cudaError_t errAsync = cudaDeviceSynchronize();
@@ -135,7 +140,7 @@ int main(int argc, char **argv) {
 	checkCudaErrors(cudaMemcpy(h_SrcVal, d_DstVal, mem_size_vec,cudaMemcpyDeviceToHost));
 
 	if (ELAPSED_TIME != 1) {
-		print(h_SrcKey, num_of_segments, num_of_elements/num_of_segments);
+		print(h_SrcKey, num_of_segments, elements_per_segment);
 		check_results(num_of_segments, num_of_elements/num_of_segments, h_SrcKey);
 	}
 

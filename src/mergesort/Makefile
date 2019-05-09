@@ -1,6 +1,6 @@
 #TIME=1
 #EXECS=10
-STREAMS=32
+STREAMS=1
 ################################################################################
 INCLUDES  := -I$(CUDA_HOME)/samples/common/inc
 LIBRARIES := -lcuda

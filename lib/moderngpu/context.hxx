@@ -56,6 +56,16 @@ protected:
   cudaEvent_t _event;
 
 public:
+  template<int dummy_arg = 0>
+  stream_context_t() : context_t(), _stream(0) {
+     cudaFuncAttributes attr;
+     cudaError_t error = cudaFuncGetAttributes(&attr, &dummy_k<0>);
+     _ptx_version = attr.binaryVersion;
+
+     cudaEventCreate(&_timer[0]);
+     cudaEventCreate(&_timer[1]);
+     cudaEventCreate(&_event);
+   }
   // Making this a template argument means we won't generate an instance
   // of dummy_k for each translation unit.
   template<int dummy_arg = 0>
@@ -75,9 +85,28 @@ public:
     cudaEventDestroy(_event);
   }
 
+  stream_context_t(const stream_context_t& rhs){
+	  this->_ptx_version = rhs._ptx_version;
+	  this->_stream = rhs._stream;
+	  this->_timer[0] = rhs._timer[0];
+	  this->_timer[1] = rhs._timer[1];
+	  this->_event = rhs._event;
+
+  }
+
+  stream_context_t& operator=(const stream_context_t& rhs){
+	  this->_ptx_version = rhs._ptx_version;
+	  this->_stream = rhs._stream;
+	  this->_timer[0] = rhs._timer[0];
+	  this->_timer[1] = rhs._timer[1];
+	  this->_event = rhs._event;
+
+	  return *this;
+  }
+
   virtual int ptx_version() const { return _ptx_version; }
   virtual cudaStream_t stream() { return _stream; }
-
+  void setStream(cudaStream_t s) { _stream = s; }
   // Alloc GPU memory.
   virtual void* alloc(size_t size, memory_space_t space) {
     void* p = nullptr;

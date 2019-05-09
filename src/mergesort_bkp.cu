@@ -23,9 +23,14 @@
 #include <math.h>
 
 #include <cuda.h>
+//#include <cstdlib>
 #include <iostream>
 
-#include<thread>
+
+#include <future>
+#include<tuple>
+#include <vector>
+
 
 #ifndef ELAPSED_TIME
 #define ELAPSED_TIME 0
@@ -34,6 +39,7 @@
 #ifndef NUM_STREAMS
 #define NUM_STREAMS 16
 #endif
+
 
 //using namespace mgpu;
 using namespace std;
@@ -46,6 +52,7 @@ void cudaTest(cudaError_t error) {
 		exit (EXIT_FAILURE);
 	}
 }
+
 
 void print(uint* host_data, uint n, uint m) {
 	std::cout << "\n";
@@ -61,58 +68,51 @@ void print(uint* host_data, uint n, uint m) {
 ////////////////////////////////////////////////////////////////////////////////
 // Verify the results.
 ////////////////////////////////////////////////////////////////////////////////
-void check_results(int n, int m, unsigned int *results_h) {
-	for (int i = 0; i < n; ++i) {
-		for (uint j = 1; j < m; j++) {
-			if (results_h[i * m + j - 1] > results_h[i * m + j]) {
-				std::cout << "Invalid item[" << j - 1 << "]: "
-						<< results_h[i * m + j - 1] << " greater than "
-						<< results_h[i * m + j] << std::endl;
-				exit (EXIT_FAILURE);
+void check_results(int n, int m, unsigned int *results_h)
+{
+    for (int i = 0 ; i < n ; ++i) {
+    	for (uint j = 1; j < m; j++) {
+    		if (results_h[i*m +j -1] > results_h[i*m +j])
+			{
+				std::cout << "Invalid item[" << j-1 << "]: " << results_h[i*m +j -1] << " greater than " << results_h[i*m +j] << std::endl;
+				exit(EXIT_FAILURE);
 			}
-		}
-	}
+    	}
+    }
 
-	std::cout << "OK" << std::endl;
+    std::cout << "OK" << std::endl;
 }
 
-/*class Teste {
- uint* d_vec;
- uint* h_seg;
- uint num_of_elements;
- uint num_of_segments;
- uint nstreams;
- public:
- Teste(uint* d_vec, uint* h_seg, uint num_of_elements, uint num_of_segments, uint nstreams){
- this->d_vec = d_vec;
- this->h_seg = h_seg;
- this->num_of_elements = num_of_elements;
- this->num_of_segments = num_of_segments;
- this->nstreams = nstreams;
- }
+template<int S>
+class Scheduler {
+	std::vector<std::function<void()>> functions;
+	std::vector<int> map;
+	int i=0;
 
- void create(){
- std::thread t1(&Teste::sorting);
- t1.join();
- }
+public:
+	template<typename Func, typename Type>
+	void kernelCall(Func func, Type h_a, uint n) {
+		auto funct = std::bind(func, h_a, n, i++);
+		functions.push_back(funct);
+		map.push_back(-1);
+	}
 
- void exec() {
- //t1.();
- }
+	void schedule(){
+		int k = 0;
+		for(auto funct : functions){
+			map[k] = k;
+			k=(++k) % S;
+		}
 
- void sorting() {
- //cudaEventRecord(start);
- for(int i = 0; i < num_of_segments; i+=nstreams) {
- for (int s = 0; s < nstreams; s++) {
+	}
 
- }
- }
- //cudaEventRecord(stop);
- }
- };
- void sorting(uint* d_vec, uint segmentid, uint elements, mgpu::stream_context_t context) {
- mgpu::mergesort(d_vec + segmentid, elements, mgpu::less_t<uint>(), context);
- }*/
+	void execute(){
+		for(auto funct : functions){
+			funct();
+		}
+	}
+};
+
 
 int main(int argc, char** argv) {
 
@@ -123,7 +123,7 @@ int main(int argc, char** argv) {
 	scanf("%d", &num_of_segments);
 	uint mem_size_seg = sizeof(uint) * (num_of_segments);
 	uint *h_seg = (uint *) malloc(mem_size_seg);
-	for (i = 0; i < num_of_segments + 1; i++)
+	for (i = 0; i < num_of_segments+1; i++)
 		scanf("%d", &h_seg[i]);
 
 	scanf("%d", &num_of_elements);
@@ -136,40 +136,40 @@ int main(int argc, char** argv) {
 	cudaEventCreate(&start);
 	cudaEventCreate(&stop);
 
-	uint *d_vec;
+	uint *d_seg, *d_vec, *d_index_resp;
 
 	cudaStream_t streams[NUM_STREAMS];
-	mgpu::stream_context_t contexts[NUM_STREAMS];
 	for (int i = 0; i < NUM_STREAMS; i++) {
 		cudaStreamCreate(&streams[i]);
-		contexts[i].setStream(streams[i]);
 	}
 
 	int nstreams = NUM_STREAMS;
 	if (NUM_STREAMS > num_of_segments)
 		nstreams = num_of_segments;
 
+	cudaTest(cudaMalloc((void **) &d_seg, mem_size_seg));
 	cudaTest(cudaMalloc((void **) &d_vec, mem_size_vec));
+	cudaTest(cudaMalloc((void **) &d_index_resp, mem_size_vec));
 
 	for (uint j = 0; j < EXECUTIONS; j++) {
 
 		// copy host memory to device
-		cudaTest(
-				cudaMemcpy(d_vec, h_vec, mem_size_vec, cudaMemcpyHostToDevice));
-		//Teste t(d_vec, h_seg, num_of_elements, num_of_segments, nstreams);
-		//t.create();
+		cudaTest(cudaMemcpy(d_seg, h_seg, mem_size_seg, cudaMemcpyHostToDevice));
+		cudaTest(cudaMemcpy(d_vec, h_vec, mem_size_vec, cudaMemcpyHostToDevice));
+
 		try {
 			cudaEventRecord(start);
-			for (int i = 0; i < num_of_segments; i += nstreams) {
+			for(int i = 0; i < num_of_segments; i+=nstreams) {
 				for (int s = 0; s < nstreams; s++) {
-					//mgpu::mergesort(d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), contexts[s]);
-					//std::thread t1(sorting, d_vec, h_seg[i+s], num_of_elements/num_of_segments, contexts[s]);
-					//mgpu::mergesort(d_vec + h_seg[i + s],	num_of_elements / num_of_segments, mgpu::less_t<uint>(), contexts[s]);
-					mgpu::mergesort<mgpu::empty_t, uint, mgpu::less_t<uint>>
-					(d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), contexts[s]);
-					//std::thread t1([=] { mgpu::mergesort<mgpu::empty_t, uint, mgpu::less_t<uint>>
-						//(d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), contexts[s]);});
-					//t1.join();
+					/*mgpu::stream_context_t context(streams[s]);
+					//mgpu::mergesort(d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), context);
+					Scheduler scheduler(4);
+					scheduler.kernelCall(mgpu::mergesort, d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), context);
+					//std::async(std::launch::async, &mergesort, d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), context);*/
+
+					mgpu::stream_context_t context(streams[s]);
+					auto func = mgpu::mergesort(d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), context);
+					auto teste = std::async(func, d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), context);
 				}
 			}
 			cudaEventRecord(stop);
@@ -180,9 +180,9 @@ int main(int argc, char** argv) {
 			if (errSync != cudaSuccess)
 				printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
 			if (errAsync != cudaSuccess)
-				printf("Async kernel error: %s\n",
-						cudaGetErrorString(errAsync));
+				printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 		}
+
 
 		if (ELAPSED_TIME == 1) {
 			cudaEventSynchronize(stop);
@@ -196,12 +196,13 @@ int main(int argc, char** argv) {
 
 	cudaTest(cudaMemcpy(h_vec, d_vec, mem_size_vec, cudaMemcpyDeviceToHost));
 
+	cudaFree(d_seg);
 	cudaFree(d_vec);
+	cudaFree(d_index_resp);
 
 	if (ELAPSED_TIME != 1) {
 		//print(h_vec, num_of_segments, num_of_elements/num_of_segments);
-		check_results(num_of_segments, num_of_elements / num_of_segments,
-				h_vec);
+		check_results(num_of_segments, num_of_elements/num_of_segments, h_vec);
 	}
 
 	free(h_seg);

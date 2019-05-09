@@ -160,7 +160,8 @@ static void mergeSortShared(
     uint *d_SrcVal,
     uint batchSize,
     uint arrayLength,
-    uint sortDir
+    uint sortDir,
+    cudaStream_t stream
 )
 {
     if (arrayLength < 2)
@@ -169,18 +170,30 @@ static void mergeSortShared(
     }
 
     assert(SHARED_SIZE_LIMIT % arrayLength == 0);
-    assert(((batchSize * arrayLength) % SHARED_SIZE_LIMIT) == 0);
+
     uint  blockCount = batchSize * arrayLength / SHARED_SIZE_LIMIT;
     uint threadCount = SHARED_SIZE_LIMIT / 2;
 
+    if(SHARED_SIZE_LIMIT > arrayLength) {
+		blockCount = batchSize * arrayLength / arrayLength;
+		threadCount = arrayLength / 2;
+
+		printf("blockcount=%d\n", blockCount);
+		printf("threadcount=%d\n", threadCount);
+	}
+	else {
+		assert(((batchSize * arrayLength) % SHARED_SIZE_LIMIT) == 0);
+	}
+
+
     if (sortDir)
     {
-        mergeSortSharedKernel<1U><<<blockCount, threadCount>>>(d_DstKey, d_DstVal, d_SrcKey, d_SrcVal, arrayLength);
+        mergeSortSharedKernel<1U><<<blockCount, threadCount, 0, stream>>>(d_DstKey, d_DstVal, d_SrcKey, d_SrcVal, arrayLength);
         getLastCudaError("mergeSortShared<1><<<>>> failed\n");
     }
     else
     {
-        mergeSortSharedKernel<0U><<<blockCount, threadCount>>>(d_DstKey, d_DstVal, d_SrcKey, d_SrcVal, arrayLength);
+        mergeSortSharedKernel<0U><<<blockCount, threadCount, 0, stream>>>(d_DstKey, d_DstVal, d_SrcKey, d_SrcVal, arrayLength);
         getLastCudaError("mergeSortShared<0><<<>>> failed\n");
     }
 }
@@ -242,7 +255,8 @@ static void generateSampleRanks(
     uint *d_SrcKey,
     uint stride,
     uint N,
-    uint sortDir
+    uint sortDir,
+    cudaStream_t stream
 )
 {
     uint lastSegmentElements = N % (2 * stride);
@@ -250,12 +264,12 @@ static void generateSampleRanks(
 
     if (sortDir)
     {
-        generateSampleRanksKernel<1U><<<iDivUp(threadCount, 256), 256>>>(d_RanksA, d_RanksB, d_SrcKey, stride, N, threadCount);
+        generateSampleRanksKernel<1U><<<iDivUp(threadCount, 256), 256, 0, stream>>>(d_RanksA, d_RanksB, d_SrcKey, stride, N, threadCount);
         getLastCudaError("generateSampleRanksKernel<1U><<<>>> failed\n");
     }
     else
     {
-        generateSampleRanksKernel<0U><<<iDivUp(threadCount, 256), 256>>>(d_RanksA, d_RanksB, d_SrcKey, stride, N, threadCount);
+        generateSampleRanksKernel<0U><<<iDivUp(threadCount, 256), 256, 0, stream>>>(d_RanksA, d_RanksB, d_SrcKey, stride, N, threadCount);
         getLastCudaError("generateSampleRanksKernel<0U><<<>>> failed\n");
     }
 }
@@ -309,13 +323,14 @@ static void mergeRanksAndIndices(
     uint *d_RanksA,
     uint *d_RanksB,
     uint stride,
-    uint N
+    uint N,
+    cudaStream_t stream
 )
 {
     uint lastSegmentElements = N % (2 * stride);
     uint         threadCount = (lastSegmentElements > stride) ? (N + 2 * stride - lastSegmentElements) / (2 * SAMPLE_STRIDE) : (N - lastSegmentElements) / (2 * SAMPLE_STRIDE);
 
-    mergeRanksAndIndicesKernel<<<iDivUp(threadCount, 256), 256>>>(
+    mergeRanksAndIndicesKernel<<<iDivUp(threadCount, 256), 256, 0, stream>>>(
         d_LimitsA,
         d_RanksA,
         stride,
@@ -324,7 +339,7 @@ static void mergeRanksAndIndices(
     );
     getLastCudaError("mergeRanksAndIndicesKernel(A)<<<>>> failed\n");
 
-    mergeRanksAndIndicesKernel<<<iDivUp(threadCount, 256), 256>>>(
+    mergeRanksAndIndicesKernel<<<iDivUp(threadCount, 256), 256, 0, stream>>>(
         d_LimitsB,
         d_RanksB,
         stride,
@@ -478,7 +493,8 @@ static void mergeElementaryIntervals(
     uint *d_LimitsB,
     uint stride,
     uint N,
-    uint sortDir
+    uint sortDir,
+    cudaStream_t stream
 )
 {
     uint lastSegmentElements = N % (2 * stride);
@@ -486,7 +502,7 @@ static void mergeElementaryIntervals(
 
     if (sortDir)
     {
-        mergeElementaryIntervalsKernel<1U><<<mergePairs, SAMPLE_STRIDE>>>(
+        mergeElementaryIntervalsKernel<1U><<<mergePairs, SAMPLE_STRIDE, 0, stream>>>(
             d_DstKey,
             d_DstVal,
             d_SrcKey,
@@ -500,7 +516,7 @@ static void mergeElementaryIntervals(
     }
     else
     {
-        mergeElementaryIntervalsKernel<0U><<<mergePairs, SAMPLE_STRIDE>>>(
+        mergeElementaryIntervalsKernel<0U><<<mergePairs, SAMPLE_STRIDE, 0, stream>>>(
             d_DstKey,
             d_DstVal,
             d_SrcKey,
@@ -567,7 +583,8 @@ extern "C" void mergeSort(
     uint *d_SrcKey,
     uint *d_SrcVal,
     uint N,
-    uint sortDir
+    uint sortDir,
+    cudaStream_t stream
 )
 {
     uint stageCount = 0;
@@ -592,21 +609,29 @@ extern "C" void mergeSort(
     }
 
     assert(N <= (SAMPLE_STRIDE * MAX_SAMPLE_COUNT));
-    assert(N % SHARED_SIZE_LIMIT == 0);
-    mergeSortShared(ikey, ival, d_SrcKey, d_SrcVal, N / SHARED_SIZE_LIMIT, SHARED_SIZE_LIMIT, sortDir);
+
+    //
+    if(SHARED_SIZE_LIMIT > N) {
+    	printf("teste\n");
+    	mergeSortShared(ikey, ival, d_SrcKey, d_SrcVal, 1, N, sortDir, stream);
+    }
+    else {
+    	assert(N % SHARED_SIZE_LIMIT == 0);
+    	mergeSortShared(ikey, ival, d_SrcKey, d_SrcVal, N / SHARED_SIZE_LIMIT, SHARED_SIZE_LIMIT, sortDir, stream);
+    }
 
     for (uint stride = SHARED_SIZE_LIMIT; stride < N; stride <<= 1)
     {
         uint lastSegmentElements = N % (2 * stride);
 
         //Find sample ranks and prepare for limiters merge
-        generateSampleRanks(d_RanksA, d_RanksB, ikey, stride, N, sortDir);
+        generateSampleRanks(d_RanksA, d_RanksB, ikey, stride, N, sortDir, stream);
 
         //Merge ranks and indices
-        mergeRanksAndIndices(d_LimitsA, d_LimitsB, d_RanksA, d_RanksB, stride, N);
+        mergeRanksAndIndices(d_LimitsA, d_LimitsB, d_RanksA, d_RanksB, stride, N, stream);
 
         //Merge elementary intervals
-        mergeElementaryIntervals(okey, oval, ikey, ival, d_LimitsA, d_LimitsB, stride, N, sortDir);
+        mergeElementaryIntervals(okey, oval, ikey, ival, d_LimitsA, d_LimitsB, stride, N, sortDir, stream);
 
         if (lastSegmentElements <= stride)
         {
