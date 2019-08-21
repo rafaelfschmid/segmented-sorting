@@ -9,22 +9,27 @@
 #endif
 
 void segments_gen(int num_elements, int num_segments) {
-	int* h_data = new int[num_segments];
-	int *h_aux = new int[num_elements];
+	int* h_data = new int[num_segments+1];
+	int* selected_positions = new int[num_elements];
+
+	for (int i = 0; i < num_elements; i++)
+	{
+		selected_positions[i] = 0;
+	}
 
 	h_data[0] = 0;
-	h_aux[0] = 1;
+	selected_positions[0] = 1;
 	int i = 1;
 	while(i < num_segments)
 	{
 		int x = rand() % num_elements;
-		if(h_aux[x] == 0) {
-			h_aux[x] = 1;
+		if(selected_positions[x] != 1) {
+			selected_positions[x] = 1;
 			h_data[i] = x;
 			i++;
 		}
 	}
-	free(h_aux);
+	free(selected_positions);
 
 	h_data[num_segments] = num_elements;
 

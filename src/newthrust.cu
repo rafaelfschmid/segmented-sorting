@@ -15,11 +15,14 @@
 #include <thrust/sort.h>
 #include <thrust/copy.h>
 
-//#include <future>
+#include <future>
 #include <thread>
-#include <chrono>
+
 #include <iostream>
 #include <omp.h>
+#include <vector>
+
+#include <cudaProfiler.h>
 
 #ifndef ELAPSED_TIME
 #define ELAPSED_TIME 0
@@ -37,14 +40,8 @@ void print(thrust::host_vector<int> h_vec) {
 	std::cout << "\n";
 }
 
-template<typename D, typename H>
-void kernelCall(cudaStream_t stream, D d_vec, H h_seg, int i){
-
-	cudaSetDevice(0);
-	printf("teste segment %d\n", i);
-	thrust::sort(thrust::cuda::par.on(stream),d_vec.begin() + h_seg[i], d_vec.begin() + h_seg[i + 1]);
-
-
+void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+	thrust::sort(exec,first,last);
 }
 
 int main(void) {
@@ -54,8 +51,10 @@ int main(void) {
 
 	scanf("%d", &num_of_segments);
 	thrust::host_vector<int> h_seg(num_of_segments + 1);
-	for (i = 0; i < num_of_segments + 1; i++)
+	for (i = 0; i < num_of_segments + 1; i++) {
 		scanf("%d", &h_seg[i]);
+	}
+
 
 	scanf("%d", &num_of_elements);
 	thrust::host_vector<int> h_vec(num_of_elements);
@@ -76,6 +75,23 @@ int main(void) {
 
 	omp_set_num_threads(nstreams);
 
+	std::vector<uint> amountOfwork(nstreams); //vetor para escalonar os kernels
+	std::vector<std::vector<uint>> machines(nstreams);
+
+	for(int j = 0; j < nstreams; j++) {
+		amountOfwork[j] = 0;
+	}
+
+	for(int i = 0; i < num_of_segments; i++) {
+		int min = 0;
+		for(int j = 1; j < nstreams; j++) {
+			if(amountOfwork[j] < amountOfwork[min])
+				min = j;
+		}
+		amountOfwork[min] += h_seg[i+1] - h_seg[i];
+		machines[min].push_back(i);
+	}
+
 	for (uint i = 0; i < EXECUTIONS; i++) {
 		cudaEvent_t start, stop;
 		cudaEventCreate(&start);
@@ -83,16 +99,49 @@ int main(void) {
 
 		thrust::copy(h_vec.begin(), h_vec.end(), d_vec.begin());
 
+		cuProfilerStart();
 		cudaEventRecord(start);
+		/*
+		 * async with scheduling
+		 */
+
+		/*std::vector<std::future<void>> vec;
+		for (int id = 0; id < machines.size(); id++) {
+			for (int i = 0; i < machines[id].size(); i++) {
+				vec.push_back(std::async(std::launch::async, kernelCall, thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[machines[id][i]], d_vec.begin() + h_seg[machines[id][i] + 1]));
+			}
+		}
+		for(int k = 0; k < vec.size(); k++){
+			vec[k].get();
+		}*/
+
+		/*
+		 * async withOUT scheduling
+		 */
+		/*std::vector<std::future<void>> vec;
+		int id = 0;
+		for (int i = 0; i < num_of_segments; i++) {
+			vec.push_back(std::async(std::launch::async, kernelCall, thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[i], d_vec.begin() + h_seg[i + 1]));
+			id = (id+1) % nstreams;
+		}
+		for(int k = 0; k < vec.size(); k++){
+			vec[k].get();
+		}*/
+
 		#pragma omp parallel
 		{
 			uint id = omp_get_thread_num(); //cpu_thread_id
+			/*for (int i = 0; i < machines[id].size(); i++) {
+			//	uint k = i + id;
+				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[machines[id][i]], d_vec.begin() + h_seg[machines[id][i] + 1]);
+			}*/
 			for (int i = 0; i < num_of_segments; i+=nstreams) {
 				uint k = i + id;
 				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]);
 			}
 		}
 		cudaEventRecord(stop);
+		cuProfilerStop();
 
 		if (ELAPSED_TIME == 1) {
 			cudaEventSynchronize(stop);
