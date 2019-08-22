@@ -53,14 +53,13 @@ nmoderngpu: nmoderngpu.cu
 	nvcc $(arch) nmoderngpu.cu -o nmoderngpu.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
 mergesort: mergesort.cu
-	#for STREAMS in 1 8 16 32 ; do \
-		nvcc $(arch) mergesort.cu -o mergesort$${STREAMS}.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$${STREAMS} ; \
-	done
-	nvcc $(arch) mergesort.cu -o mergesort.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) ; \
-
+	nvcc $(arch) mergesort.cu -o mergesort.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+#for STREAMS in 1 8 16 32 ; do \
+	#	nvcc $(arch) mergesort.cu -o mergesort$${STREAMS}.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$${STREAMS} ; \
+	#done
 
 simplemergesort: simplemergesort.cu
-	nvcc $(arch) simplemergesort.cu -o simplemergesort.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -I/usr/local/cuda/samples/common/inc ; \
+	nvcc $(arch) simplemergesort.cu -o simplemergesort.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -I/usr/local/cuda/samples/common/inc
 
 #	for STREAMS in 1 8 16 32 ; do \
 #	nvcc $(arch) mergesort.cu -o mergesort$${STREAMS}.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$${STREAMS} ; \

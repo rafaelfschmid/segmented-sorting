@@ -128,16 +128,21 @@ int main(void) {
 			vec[k].get();
 		}*/
 
-		#pragma omp parallel
+		/*#pragma omp parallel
 		{
 			uint id = omp_get_thread_num(); //cpu_thread_id
 			/*for (int i = 0; i < machines[id].size(); i++) {
 			//	uint k = i + id;
 				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[machines[id][i]], d_vec.begin() + h_seg[machines[id][i] + 1]);
-			}*/
+			}
 			for (int i = 0; i < num_of_segments; i+=nstreams) {
 				uint k = i + id;
 				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]);
+			}
+		}*/
+		for (int id = 0; id < machines.size(); id++) {
+			for (int i = 0; i < machines[id].size(); i++) {
+				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[machines[id][i]], d_vec.begin() + h_seg[machines[id][i] + 1]);
 			}
 		}
 		cudaEventRecord(stop);

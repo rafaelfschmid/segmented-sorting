@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
 					//std::thread t1(sorting, d_vec, h_seg[i+s], num_of_elements/num_of_segments, contexts[s]);
 					//mgpu::mergesort(d_vec + h_seg[i + s],	num_of_elements / num_of_segments, mgpu::less_t<uint>(), contexts[s]);
 					mgpu::mergesort<mgpu::empty_t, uint, mgpu::less_t<uint>>
-					(d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), contexts[s]);
+					(d_vec+h_seg[i+s], h_seg[i+s+1]-h_seg[i+s], mgpu::less_t<uint>(), contexts[s]);
 					//std::thread t1([=] { mgpu::mergesort<mgpu::empty_t, uint, mgpu::less_t<uint>>
 						//(d_vec+h_seg[i+s], num_of_elements/num_of_segments, mgpu::less_t<uint>(), contexts[s]);});
 					//t1.join();
