@@ -7,7 +7,7 @@
 using namespace std;
 
 #ifndef SEGMENTS
-#define SEGMENTS 1048576
+#define SEGMENTS 8388608
 #endif
 
 int main(int argc, char **argv) {

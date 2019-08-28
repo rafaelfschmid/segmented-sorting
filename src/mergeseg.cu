@@ -115,7 +115,6 @@ int main(int argc, char** argv) {
 				printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
 		}
 
-
 		if (ELAPSED_TIME == 1) {
 			cudaEventSynchronize(stop);
 			float milliseconds = 0;
