@@ -13,6 +13,8 @@
 #include <helper_cuda.h>
 #include <helper_string.h>
 
+#include "cuda_profiler_api.h"
+
 #define MAX_DEPTH       16
 #define INSERTION_SORT  32
 
@@ -205,6 +207,26 @@ int main(int argc, char **argv)
 	if(NUM_STREAMS > num_of_segments)
 		nstreams = num_of_segments;
 
+	#ifdef SCHEDULE
+	std::vector<uint> amountOfwork(nstreams); //vetor para escalonar os kernels
+	std::vector<uint> segMachine(num_of_segments);
+
+
+	for(int j = 0; j < nstreams; j++) {
+		amountOfwork[j] = 0;
+	}
+
+	for(int i = 0; i < num_of_segments; i++) {
+		int min = 0;
+		for(int j = 1; j < nstreams; j++) {
+			if(amountOfwork[j] < amountOfwork[min])
+				min = j;
+		}
+		amountOfwork[min] += h_seg[i+1] - h_seg[i];
+		segMachine[i] = min;
+	}
+	#endif
+
 	cudaEvent_t start, stop;
 	cudaEventCreate(&start);
 	cudaEventCreate(&stop);
@@ -218,22 +240,64 @@ int main(int argc, char **argv)
 
 		cudaTest(cudaMemcpy(d_vec, h_vec, mem_size_vec, cudaMemcpyHostToDevice));
 
+		cudaProfilerStart();
 		cudaEventRecord(start);
-		for(int j = 0; j < num_of_segments; j+=nstreams) {
-			//run_qsort(d_vec+h_seg[j], num_of_elements/num_of_segments);
-			for(int s = 0; s < nstreams; s++) {
-				cdp_simple_quicksort<<< 1, 1, 0, streams[s] >>>(d_vec, h_seg[j+s], h_seg[j+1+s]-1, 0);
-			}
 
-		}
+		#ifdef SCHEDULE
+
+			#ifdef THREADS
+				omp_set_num_threads(nstreams);
+				#pragma omp parallel
+				{
+					uint id = omp_get_thread_num(); //cpu_thread_id
+
+					for (int i = 0; i < num_of_segments; i+=nstreams) {
+						uint k = i + id;
+						cdp_simple_quicksort<<< 1, 1, 0, streams[segMachine[k]] >>>(d_vec, h_seg[k], h_seg[k+1]-1, 0);
+					}
+				}
+			#else
+
+				std::vector<std::future<void>> vec;
+				for (int k = 0; k < num_of_segments; k++) {
+					cdp_simple_quicksort<<< 1, 1, 0, streams[segMachine[k]] >>>(d_vec, h_seg[k], h_seg[k+1]-1, 0);
+				}
+
+			#endif
+		#else
+			#ifdef THREADS
+				omp_set_num_threads(nstreams);
+				#pragma omp parallel
+				{
+					uint id = omp_get_thread_num(); //cpu_thread_id
+					for (int i = 0; i < num_of_segments; i+=nstreams) {
+						uint k = i + id;
+						cdp_simple_quicksort<<< 1, 1, 0, streams[id] >>>(d_vec, h_seg[k], h_seg[k+1]-1, 0);
+					}
+				}
+			#else
+				for(int j = 0; j < num_of_segments; j+=nstreams) {
+					for(int s = 0; s < nstreams; s++) {
+						cdp_simple_quicksort<<< 1, 1, 0, streams[s] >>>(d_vec, h_seg[j+s], h_seg[j+1+s]-1, 0);
+					}
+				}
+			#endif
+
+		#endif
+
 		cudaEventRecord(stop);
 
+		cudaDeviceSynchronize();
 		cudaError_t errSync = cudaGetLastError();
 		cudaError_t errAsync = cudaDeviceSynchronize();
 		if (errSync != cudaSuccess)
 			printf("Sync kernel error: %s\n", cudaGetErrorString(errSync));
 		if (errAsync != cudaSuccess)
 			printf("Async kernel error: %s\n", cudaGetErrorString(errAsync));
+
+		cudaProfilerStop();
+
+
 
 		if (ELAPSED_TIME == 1) {
 			cudaEventSynchronize(stop);

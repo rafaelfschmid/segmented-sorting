@@ -5,4 +5,4 @@ PATH=${CUDA_HOME}/bin:${PATH}
 
 export TIME=1
 export EXECS=1
-export STREAMS=32
+export STREAMS=8

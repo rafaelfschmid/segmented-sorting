@@ -73,10 +73,9 @@ int main(void) {
 	if(NUM_STREAMS > num_of_segments)
 		nstreams = num_of_segments;
 
-	omp_set_num_threads(nstreams);
-
+	#ifdef SCHEDULE
 	std::vector<uint> amountOfwork(nstreams); //vetor para escalonar os kernels
-	std::vector<std::vector<uint>> machines(nstreams);
+	std::vector<uint> segMachine(num_of_segments);
 
 	for(int j = 0; j < nstreams; j++) {
 		amountOfwork[j] = 0;
@@ -89,8 +88,9 @@ int main(void) {
 				min = j;
 		}
 		amountOfwork[min] += h_seg[i+1] - h_seg[i];
-		machines[min].push_back(i);
+		segMachine[i] = min;
 	}
+	#endif
 
 	for (uint i = 0; i < EXECUTIONS; i++) {
 		cudaEvent_t start, stop;
@@ -104,47 +104,64 @@ int main(void) {
 		/*
 		 * async with scheduling
 		 */
+		#ifdef SCHEDULE
 
-		/*std::vector<std::future<void>> vec;
-		for (int id = 0; id < machines.size(); id++) {
-			for (int i = 0; i < machines[id].size(); i++) {
-				vec.push_back(std::async(std::launch::async, kernelCall, thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[machines[id][i]], d_vec.begin() + h_seg[machines[id][i] + 1]));
-			}
-		}
-		for(int k = 0; k < vec.size(); k++){
-			vec[k].get();
-		}*/
+			#ifdef THREADS
+				omp_set_num_threads(nstreams);
+				#pragma omp parallel
+				{
+					uint id = omp_get_thread_num(); //cpu_thread_id
 
-		/*
-		 * async withOUT scheduling
-		 */
-		/*std::vector<std::future<void>> vec;
-		int id = 0;
-		for (int i = 0; i < num_of_segments; i++) {
-			vec.push_back(std::async(std::launch::async, kernelCall, thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[i], d_vec.begin() + h_seg[i + 1]));
-			id = (id+1) % nstreams;
-		}
-		for(int k = 0; k < vec.size(); k++){
-			vec[k].get();
-		}*/
+					for (int i = 0; i < num_of_segments; i+=nstreams) {
+						uint k = i + id;
+						thrust::sort(thrust::cuda::par.on(streams[segMachine[k]]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]);
+					}
+				}
+            #else
 
-		/*#pragma omp parallel
-		{
-			uint id = omp_get_thread_num(); //cpu_thread_id
-			/*for (int i = 0; i < machines[id].size(); i++) {
-			//	uint k = i + id;
-				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[machines[id][i]], d_vec.begin() + h_seg[machines[id][i] + 1]);
-			}
-			for (int i = 0; i < num_of_segments; i+=nstreams) {
-				uint k = i + id;
-				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]);
-			}
-		}*/
-		for (int id = 0; id < machines.size(); id++) {
-			for (int i = 0; i < machines[id].size(); i++) {
-				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[machines[id][i]], d_vec.begin() + h_seg[machines[id][i] + 1]);
-			}
-		}
+				std::vector<std::future<void>> vec;
+				for (int k = 0; k < num_of_segments; k++) {
+					vec.push_back(std::async(std::launch::async, kernelCall, thrust::cuda::par.on(streams[segMachine[k]]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]));
+				}
+				for(int k = 0; k < vec.size(); k++){
+					vec[k].get();
+				}
+			#endif
+		#else
+			#ifdef THREADS
+				omp_set_num_threads(nstreams);
+				#pragma omp parallel
+				{
+					uint id = omp_get_thread_num(); //cpu_thread_id
+					for (int i = 0; i < num_of_segments; i+=nstreams) {
+						uint k = i + id;
+						thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]);
+					}
+				}
+			#else
+
+				std::vector<std::future<void>> vec;
+				int id = 0;
+				for (int i = 0; i < num_of_segments; i++) {
+					vec.push_back(std::async(std::launch::async, kernelCall, thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[i], d_vec.begin() + h_seg[i + 1]));
+					id = (id+1) % nstreams;
+				}
+				for(int k = 0; k < vec.size(); k++){
+					vec[k].get();
+				}
+
+				/*
+				 * async withOUT scheduling
+				 */
+				/*for (int id = 0; id < machines.size(); id++) {
+					for (int i = 0; i < machines[id].size(); i++) {
+						thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[machines[id][i]], d_vec.begin() + h_seg[machines[id][i] + 1]);
+					}
+				}*/
+			#endif
+
+		#endif
+
 		cudaEventRecord(stop);
 		cuProfilerStop();
 

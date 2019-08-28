@@ -6,6 +6,8 @@
 #include <iostream>
 #include <ctime>
 
+#include "cuda_profiler_api.h"
+
 #include "sort.h"
 #include "utils.h"
 
@@ -95,13 +97,15 @@ int main(int argc, char** argv) {
 		//cudaTest(cudaMemcpy(d_out, h_seg, mem_size_seg, cudaMemcpyHostToDevice));
 		cudaTest(cudaMemcpy(d_vec, h_vec, mem_size_vec, cudaMemcpyHostToDevice));
 
+		cudaProfilerStart();
 		cudaEventRecord(start);
 		for(int i = 0; i < num_of_segments; i+=nstreams) {
 			for (int s = 0; s < nstreams; s++) {
-				radix_sort(d_out + h_seg[i+s], d_vec + h_seg[i+s], num_of_elements/num_of_segments, streams[s]);
+				radix_sort(d_out + h_seg[i+s], d_vec + h_seg[i+s], h_seg[i+s+1]-h_seg[i+s], streams[s]);
 			}
 		}
 		cudaEventRecord(stop);
+		cudaProfilerStop();
 
 		cudaError_t errSync = cudaGetLastError();
 		cudaError_t errAsync = cudaDeviceSynchronize();
