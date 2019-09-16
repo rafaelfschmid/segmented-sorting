@@ -8,10 +8,10 @@ arch= -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -g
 all: mergeseg radixseg fixcub fixthrust nthrust fixseq mseq
 
 mergeseg: mergeseg.cu
-	nvcc $(arch) mergeseg.cu -o mergeseg.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+	nvcc $(arch) mergeseg.cu -o mergeseg.exe -I"../../lib/moderngpu/src" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
 radixseg: radixseg.cu
-	nvcc $(arch) radixseg.cu -o radixseg.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
+	nvcc $(arch) radixseg.cu -o radixseg.exe -I"../../lib/cub" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
 fixcub: fixcub.cu
 	nvcc $(arch) fixcub.cu -o fixcub.exe -I"../lib" -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)

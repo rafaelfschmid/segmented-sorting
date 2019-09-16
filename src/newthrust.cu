@@ -14,6 +14,7 @@
 #include <thrust/generate.h>
 #include <thrust/sort.h>
 #include <thrust/copy.h>
+#include <thrust/system/cuda/detail/par.h>
 
 #include <future>
 #include <thread>
@@ -40,7 +41,9 @@ void print(thrust::host_vector<int> h_vec) {
 	std::cout << "\n";
 }
 
-void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+//template<class T>
+//void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
 	thrust::sort(exec,first,last);
 }
 
@@ -73,25 +76,7 @@ int main(void) {
 	if(NUM_STREAMS > num_of_segments)
 		nstreams = num_of_segments;
 
-	#ifdef SCHEDULE
-	std::vector<uint> amountOfwork(nstreams); //vetor para escalonar os kernels
-	std::vector<uint> segMachine(num_of_segments);
-
-	for(int j = 0; j < nstreams; j++) {
-		amountOfwork[j] = 0;
-	}
-
-	for(int i = 0; i < num_of_segments; i++) {
-		int min = 0;
-		for(int j = 1; j < nstreams; j++) {
-			if(amountOfwork[j] < amountOfwork[min])
-				min = j;
-		}
-		amountOfwork[min] += h_seg[i+1] - h_seg[i];
-		segMachine[i] = min;
-	}
-	#endif
-
+	
 	for (uint i = 0; i < EXECUTIONS; i++) {
 		cudaEvent_t start, stop;
 		cudaEventCreate(&start);
@@ -101,6 +86,26 @@ int main(void) {
 
 		cuProfilerStart();
 		cudaEventRecord(start);
+
+		#ifdef SCHEDULE
+		std::vector<uint> amountOfwork(nstreams); //vetor para escalonar os kernels
+		std::vector<uint> segMachine(num_of_segments);
+
+		for(int j = 0; j < nstreams; j++) {
+			amountOfwork[j] = 0;
+		}
+
+		for(int i = 0; i < num_of_segments; i++) {
+			int min = 0;
+			for(int j = 1; j < nstreams; j++) {
+				if(amountOfwork[j] < amountOfwork[min])
+					min = j;
+			}
+			amountOfwork[min] += h_seg[i+1] - h_seg[i];
+			segMachine[i] = min;
+		}
+		#endif
+
 		/*
 		 * async with scheduling
 		 */
