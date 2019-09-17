@@ -1,0 +1,3586 @@
+ 
+1
+32768
+0.495008
+0.47184
+0.471968
+0.470016
+0.469792
+0.469664
+0.470208
+0.470208
+0.470752
+0.469952
+ 
+2
+32768
+0.686816
+0.674816
+0.674784
+0.67408
+0.675232
+0.675648
+0.675712
+0.67584
+0.675488
+0.675104
+ 
+4
+32768
+0.322304
+0.30992
+0.310176
+0.310048
+0.310144
+0.31008
+0.310272
+0.309664
+0.310272
+0.309152
+ 
+8
+32768
+0.285952
+0.262496
+0.265024
+0.264192
+0.262848
+0.263936
+0.262912
+0.262784
+0.263552
+0.262848
+ 
+16
+32768
+0.201856
+0.1904
+0.191264
+0.191296
+0.19056
+0.1912
+0.190304
+0.190848
+0.190912
+0.191392
+ 
+32
+32768
+0.248864
+0.235136
+0.237664
+0.237952
+0.237824
+0.23696
+0.239968
+0.238176
+0.235968
+0.23536
+ 
+64
+32768
+0.390784
+0.363648
+0.36416
+0.36352
+0.365184
+0.364608
+0.365472
+0.366208
+0.364384
+0.365216
+ 
+128
+32768
+0.647968
+0.636512
+0.636512
+0.638368
+0.635968
+0.634688
+0.637856
+0.63008
+0.63856
+0.63712
+ 
+256
+32768
+1.23446
+1.21974
+1.21952
+1.22026
+1.22061
+1.22006
+1.22112
+1.21923
+1.22035
+1.21517
+ 
+512
+32768
+2.38285
+2.36922
+2.37216
+2.3712
+2.37152
+2.37309
+2.3712
+2.37162
+2.37459
+2.37184
+ 
+1024
+32768
+4.6671
+4.68778
+4.68022
+4.68422
+4.68467
+4.68259
+4.6833
+4.68109
+4.68317
+4.65376
+ 
+2048
+32768
+9.23664
+9.24675
+9.24765
+9.24746
+9.25059
+9.2769
+9.23357
+9.21146
+9.21568
+9.216
+ 
+4096
+32768
+18.5593
+18.4596
+18.397
+18.2524
+18.3691
+18.3462
+18.3467
+18.266
+18.2733
+18.2744
+ 
+8192
+32768
+36.8331
+36.7058
+36.5997
+36.5977
+36.4388
+36.4602
+36.4633
+36.4567
+36.4617
+36.4597
+ 
+16384
+32768
+73.2687
+73.3422
+73.0252
+73.0913
+73.0894
+72.8027
+72.8293
+72.8333
+72.5851
+72.6021
+ 
+1
+65536
+0.898528
+0.892416
+0.900608
+0.893088
+0.899584
+0.899872
+0.89888
+0.89968
+0.89936
+0.8992
+ 
+2
+65536
+0.6576
+0.65312
+0.660672
+0.66048
+0.66032
+0.653376
+0.661024
+0.660416
+0.660896
+0.65952
+ 
+4
+65536
+0.670304
+0.665088
+0.671776
+0.672128
+0.673088
+0.671552
+0.671392
+0.672
+0.670688
+0.672544
+ 
+8
+65536
+0.428032
+0.429856
+0.429952
+0.42896
+0.426784
+0.428896
+0.427488
+0.427264
+0.428032
+0.42784
+ 
+16
+65536
+0.29792
+0.298304
+0.31136
+0.297248
+0.309888
+0.297152
+0.310592
+0.30544
+0.304
+0.297216
+ 
+32
+65536
+0.341152
+0.334432
+0.340736
+0.341664
+0.337248
+0.343744
+0.339008
+0.339744
+0.341504
+0.341984
+ 
+64
+65536
+0.390336
+0.38576
+0.390752
+0.389632
+0.393664
+0.392032
+0.38896
+0.392512
+0.392128
+0.390816
+ 
+128
+65536
+0.657952
+0.651232
+0.651008
+0.658528
+0.65088
+0.658656
+0.658272
+0.652992
+0.658784
+0.65184
+ 
+256
+65536
+1.23229
+1.23587
+1.22749
+1.23469
+1.22515
+1.22621
+1.22864
+1.22778
+1.23046
+1.22477
+ 
+512
+65536
+2.39306
+2.38189
+2.38531
+2.38736
+2.38438
+2.3784
+2.36934
+2.38326
+2.37808
+2.38365
+ 
+1024
+65536
+4.71981
+4.69638
+4.65139
+4.67635
+4.64483
+4.65645
+4.65914
+4.65226
+4.64835
+4.66035
+ 
+2048
+65536
+9.29219
+9.28029
+9.2872
+9.28573
+9.28864
+9.25082
+9.26118
+9.25904
+9.2576
+9.22726
+ 
+4096
+65536
+18.5439
+18.4619
+18.3108
+18.3425
+18.2826
+18.2077
+18.2116
+18.3712
+18.2865
+18.3586
+ 
+8192
+65536
+37.0016
+36.8532
+36.6998
+36.5936
+36.5972
+36.5911
+36.7408
+36.5434
+36.5685
+36.5658
+ 
+16384
+65536
+73.579
+73.3986
+73.4041
+73.1438
+73.1458
+73.1488
+72.8266
+73.1763
+73.133
+73.1385
+ 
+32768
+65536
+146.509
+145.523
+144.912
+144.466
+145.075
+145.618
+146.158
+146.064
+145.456
+146.17
+ 
+1
+131072
+1.76698
+1.74726
+1.7471
+1.74893
+1.74464
+1.7456
+1.74675
+1.7472
+1.74554
+1.7456
+ 
+2
+131072
+1.3495
+1.33779
+1.33814
+1.3369
+1.33664
+1.33462
+1.33555
+1.33654
+1.33443
+1.33488
+ 
+4
+131072
+1.19779
+1.1849
+1.18362
+1.18333
+1.18259
+1.18346
+1.18214
+1.18342
+1.18368
+1.18202
+ 
+8
+131072
+0.94816
+0.928864
+0.927232
+0.926464
+0.926784
+0.926976
+0.926976
+0.927232
+0.927328
+0.927264
+ 
+16
+131072
+0.805536
+0.792192
+0.792224
+0.786944
+0.79136
+0.798656
+0.784192
+0.776832
+0.784416
+0.776768
+ 
+32
+131072
+0.486688
+0.447744
+0.440736
+0.446976
+0.449984
+0.444768
+0.453664
+0.458112
+0.436416
+0.454144
+ 
+64
+131072
+0.566464
+0.518752
+0.523264
+0.516096
+0.526176
+0.517568
+0.522944
+0.51696
+0.5232
+0.515168
+ 
+128
+131072
+0.746944
+0.717504
+0.725504
+0.72368
+0.719392
+0.720032
+0.716992
+0.725504
+0.723648
+0.7192
+ 
+256
+131072
+1.29699
+1.28074
+1.27702
+1.2743
+1.27152
+1.2737
+1.27565
+1.27344
+1.27901
+1.27667
+ 
+512
+131072
+2.45488
+2.43754
+2.43088
+2.4207
+2.43206
+2.43635
+2.42659
+2.43418
+2.41747
+2.44221
+ 
+1024
+131072
+4.78483
+4.74896
+4.75181
+4.72227
+4.72874
+4.73277
+4.7361
+4.71405
+4.7273
+4.70045
+ 
+2048
+131072
+9.37318
+9.33299
+9.32784
+9.33229
+9.33328
+9.30266
+9.3048
+9.30275
+9.34227
+9.29491
+ 
+4096
+131072
+18.6298
+18.5244
+18.467
+18.483
+18.4793
+18.4007
+18.418
+18.4213
+18.4167
+18.4137
+ 
+8192
+131072
+37.1233
+36.972
+36.9794
+37.0175
+36.8517
+36.7205
+36.7297
+36.7474
+36.7458
+36.9043
+ 
+16384
+131072
+73.9172
+73.6585
+73.6716
+73.689
+73.6852
+73.7235
+73.4123
+73.4608
+73.4689
+73.4791
+ 
+32768
+131072
+147.894
+148.739
+148.01
+147.497
+147.557
+147.579
+147.532
+147.558
+147.608
+147.543
+ 
+65536
+131072
+297.255
+294.908
+296.409
+294.928
+293.832
+294.026
+294.16
+294.936
+295.058
+293.886
+ 
+1
+262144
+3.64736
+3.62755
+3.62685
+3.62781
+3.62653
+3.62371
+3.62285
+3.62381
+3.62323
+3.6287
+ 
+2
+262144
+3.94205
+3.9288
+3.92678
+3.92794
+3.92704
+3.92886
+3.93069
+3.92582
+3.93158
+3.92486
+ 
+4
+262144
+1.7303
+1.70755
+1.70803
+1.70749
+1.70816
+1.71427
+1.70522
+1.7057
+1.71382
+1.70944
+ 
+8
+262144
+1.40432
+1.39322
+1.38858
+1.39184
+1.39014
+1.39059
+1.39011
+1.38896
+1.38896
+1.38902
+ 
+16
+262144
+1.1792
+1.16842
+1.17242
+1.16714
+1.16493
+1.16986
+1.17082
+1.16877
+1.16883
+1.16912
+ 
+32
+262144
+0.855552
+0.862496
+0.84784
+0.853824
+0.836128
+0.853568
+0.860384
+0.876288
+0.856064
+0.86432
+ 
+64
+262144
+0.690624
+0.675968
+0.671296
+0.667232
+0.667168
+0.673792
+0.67232
+0.677152
+0.674752
+0.66976
+ 
+128
+262144
+0.925856
+0.904
+0.903616
+0.901056
+0.898816
+0.912032
+0.90976
+0.911968
+0.908896
+0.905408
+ 
+256
+262144
+1.4135
+1.39632
+1.41053
+1.39779
+1.40547
+1.40218
+1.39696
+1.40099
+1.39536
+1.40157
+ 
+512
+262144
+2.55616
+2.5535
+2.54413
+2.53798
+2.54125
+2.56032
+2.5673
+2.54528
+2.54381
+2.54314
+ 
+1024
+262144
+4.86541
+4.87043
+4.89693
+4.91555
+4.89958
+4.8752
+4.87805
+4.89606
+4.87376
+4.87418
+ 
+2048
+262144
+9.59552
+9.63258
+9.57814
+9.54829
+9.5505
+9.58954
+9.55565
+9.50243
+9.54762
+9.54339
+ 
+4096
+262144
+19.0332
+18.8595
+18.8807
+18.879
+18.8861
+18.8786
+18.887
+18.8936
+18.9735
+18.8686
+ 
+8192
+262144
+37.7876
+37.6668
+37.553
+37.567
+37.5621
+37.7184
+37.6828
+37.6976
+37.5262
+37.5605
+ 
+16384
+262144
+74.9976
+75.3959
+75.0043
+74.8133
+74.8049
+74.888
+74.8428
+74.8564
+74.8154
+74.564
+ 
+32768
+262144
+150.151
+150.163
+150.176
+150.194
+149.669
+149.673
+149.045
+149.15
+149.13
+149.205
+ 
+65536
+262144
+297.871
+298.062
+295.693
+297.069
+297.069
+296.895
+295.784
+295.984
+294.75
+297.46
+ 
+131072
+262144
+595.967
+593.787
+594.104
+589.335
+592.315
+587.281
+587.463
+587.75
+587.788
+592.664
+ 
+1
+524288
+7.3048
+7.27437
+7.27885
+7.27347
+7.27315
+7.28045
+7.27626
+7.2751
+7.27786
+7.26989
+ 
+2
+524288
+6.29584
+6.28957
+6.28438
+6.2863
+6.28541
+6.28682
+6.29011
+6.28122
+6.29126
+6.28755
+ 
+4
+524288
+3.9983
+3.97277
+3.98307
+3.9713
+3.97152
+3.98339
+3.9727
+3.97363
+3.97462
+3.97523
+ 
+8
+524288
+4.18291
+4.16851
+4.16662
+4.17094
+4.16608
+4.16467
+4.16496
+4.16598
+4.16781
+4.17101
+ 
+16
+524288
+4.36397
+4.34435
+4.34851
+4.34438
+4.34269
+4.33795
+4.34106
+4.34646
+4.34262
+4.33882
+ 
+32
+524288
+1.47379
+1.43808
+1.45072
+1.44925
+1.44438
+1.45334
+1.42765
+1.45053
+1.4471
+1.45632
+ 
+64
+524288
+1.37075
+1.34192
+1.32374
+1.31334
+1.31101
+1.3121
+1.33603
+1.30422
+1.33549
+1.35888
+ 
+128
+524288
+1.58822
+1.58269
+1.56166
+1.56982
+1.5744
+1.56877
+1.57069
+1.57965
+1.56013
+1.5735
+ 
+256
+524288
+1.72115
+1.71914
+1.70586
+1.7272
+1.72262
+1.71277
+1.71584
+1.71136
+1.72339
+1.72467
+ 
+512
+524288
+2.77002
+2.74576
+2.74275
+2.74282
+2.7336
+2.74035
+2.76854
+2.72598
+2.74822
+2.73536
+ 
+1024
+524288
+5.04381
+5.01293
+5.01046
+5.01245
+5.01546
+5.01251
+5.02474
+5.04755
+5.0527
+5.00826
+ 
+2048
+524288
+9.71194
+9.73184
+9.73424
+9.68797
+9.6831
+9.68755
+9.72806
+9.69149
+9.61491
+9.69363
+ 
+4096
+524288
+19.1727
+19.0807
+19.0109
+18.9324
+19.0008
+19.0806
+19.0026
+18.9438
+19.1109
+19.0231
+ 
+8192
+524288
+37.7808
+37.8093
+37.812
+37.6964
+37.5499
+37.7506
+37.5792
+37.7393
+37.7218
+37.7027
+ 
+16384
+524288
+75.5225
+75.261
+75.3191
+75.0089
+75.0839
+75.0853
+75.0895
+75.0992
+75.0821
+75.1014
+ 
+32768
+524288
+149.998
+150.168
+150.219
+150.184
+150.211
+149.565
+150.359
+150.128
+149.58
+149.739
+ 
+65536
+524288
+300.182
+299.236
+298.178
+298.724
+297.294
+297.485
+297.56
+298.773
+298.514
+298.601
+ 
+131072
+524288
+601.279
+600.928
+598.357
+596.4
+596.578
+594.18
+596.914
+596.566
+596.49
+594.131
+ 
+262144
+524288
+1187.48
+1189.4
+1184.56
+1188.44
+1188.66
+1179.38
+1175.89
+1180.39
+1181.04
+1185.92
+ 
+1
+1048576
+14.455
+14.4131
+14.4162
+14.4082
+14.4161
+14.3876
+14.4076
+14.4175
+14.4132
+14.4135
+ 
+2
+1048576
+14.1615
+14.1378
+14.1366
+14.1388
+14.1304
+14.1294
+14.131
+14.1439
+14.1348
+14.1322
+ 
+4
+1048576
+10.402
+10.3939
+10.3936
+10.3947
+10.3885
+10.3877
+10.39
+10.3908
+10.3875
+10.3841
+ 
+8
+1048576
+6.12195
+6.10288
+6.0975
+6.10352
+6.10323
+6.10912
+6.10563
+6.10035
+6.10867
+6.10598
+ 
+16
+1048576
+4.52352
+4.51594
+4.51302
+4.51181
+4.51402
+4.51565
+4.50912
+4.50534
+4.51171
+4.50816
+ 
+32
+1048576
+3.31994
+3.3256
+3.31014
+3.31731
+3.30406
+3.31315
+3.31344
+3.31965
+3.31338
+3.30394
+ 
+64
+1048576
+2.95885
+3.02461
+2.95459
+3.01174
+2.96243
+3.04643
+2.9681
+3.04355
+2.97728
+2.98394
+ 
+128
+1048576
+2.07213
+2.05056
+2.06755
+2.0671
+2.05523
+2.08637
+2.09773
+2.07328
+2.06224
+2.06522
+ 
+256
+1048576
+2.36029
+2.34643
+2.33834
+2.33619
+2.34614
+2.3247
+2.32822
+2.34528
+2.34035
+2.34432
+ 
+512
+1048576
+3.27472
+3.26627
+3.25709
+3.26502
+3.26621
+3.25533
+3.28845
+3.26877
+3.26986
+3.30726
+ 
+1024
+1048576
+5.37373
+5.40954
+5.36749
+5.38237
+5.39667
+5.36358
+5.40819
+5.38086
+5.35523
+5.36995
+ 
+2048
+1048576
+9.97062
+10.0025
+9.95728
+9.95264
+10.0062
+9.91677
+10.0476
+9.91722
+9.99466
+9.92502
+ 
+4096
+1048576
+19.2788
+19.2732
+19.1895
+19.3543
+19.2049
+19.3559
+19.1963
+19.1804
+19.1286
+19.2749
+ 
+8192
+1048576
+38.1215
+37.7592
+37.8286
+37.8147
+37.9379
+37.9435
+37.946
+38.1014
+37.7921
+37.7965
+ 
+16384
+1048576
+75.2141
+74.692
+74.8467
+74.5184
+74.8985
+74.8105
+75.1563
+75.0992
+75.0898
+75.1038
+ 
+32768
+1048576
+150.979
+150.518
+150.539
+149.921
+150.073
+150.737
+150.59
+150.065
+149.502
+149.637
+ 
+65536
+1048576
+300.158
+300.486
+299.285
+300.574
+299.177
+299.436
+299.457
+299.26
+299.44
+300.72
+ 
+131072
+1048576
+600.528
+598.38
+598.692
+598.495
+596.369
+596.783
+596.81
+594.713
+594.685
+596.96
+ 
+262144
+1048576
+1192.31
+1188.27
+1189
+1193.72
+1187.87
+1188.55
+1189.57
+1193.26
+1179.18
+1184.25
+ 
+524288
+1048576
+2373.29
+2376.13
+2366.77
+2368.62
+2358.61
+2359.8
+2369.48
+2359.12
+2360.04
+2368.3
+ 
+1
+2097152
+28.5337
+28.4902
+28.5012
+28.4992
+28.4823
+28.4659
+28.4919
+28.4999
+28.4996
+28.4834
+ 
+2
+2097152
+23.1702
+23.1492
+23.1319
+23.1331
+23.1346
+23.148
+23.1501
+23.1324
+23.1444
+23.1352
+ 
+4
+2097152
+22.6494
+22.6222
+22.6139
+22.6144
+22.6092
+22.6144
+22.6113
+22.6305
+22.6192
+22.632
+ 
+8
+2097152
+13.1562
+13.1362
+13.1308
+13.14
+13.138
+13.1416
+13.1322
+13.1353
+13.1338
+13.1367
+ 
+16
+2097152
+17.2885
+17.2704
+17.2702
+17.2717
+17.2655
+17.2607
+17.262
+17.2617
+17.2678
+17.2608
+ 
+32
+2097152
+5.92115
+5.90256
+5.89741
+5.90544
+5.9057
+5.89427
+5.89274
+5.90515
+5.89968
+5.90883
+ 
+64
+2097152
+4.3536
+4.20224
+4.24115
+4.28931
+4.26022
+4.23738
+4.23459
+4.20058
+4.21597
+4.29475
+ 
+128
+2097152
+3.96627
+3.99437
+3.94986
+3.96493
+3.9081
+3.9496
+3.93072
+3.93699
+3.95754
+3.97034
+ 
+256
+2097152
+3.9017
+3.88438
+3.90611
+3.86678
+3.8768
+3.8663
+3.8687
+3.8864
+3.86874
+3.82685
+ 
+512
+2097152
+4.54512
+4.5008
+4.49139
+4.50061
+4.4936
+4.51424
+4.50678
+4.50192
+4.48045
+4.47213
+ 
+1024
+2097152
+6.40579
+6.42717
+6.37565
+6.40726
+6.39434
+6.37194
+6.38054
+6.37843
+6.39626
+6.39757
+ 
+2048
+2097152
+10.6956
+10.6212
+10.7131
+10.6492
+10.629
+10.6713
+10.7083
+10.6222
+10.7195
+10.6707
+ 
+4096
+2097152
+19.7441
+19.7938
+19.8046
+19.8188
+19.9061
+19.8097
+19.8051
+19.7097
+19.7326
+19.6425
+ 
+8192
+2097152
+38.2905
+38.6177
+38.3111
+38.3139
+38.4484
+38.4316
+38.4674
+38.46
+38.6143
+38.4575
+ 
+16384
+2097152
+76.3981
+75.7613
+75.365
+76.0966
+76.0366
+76.4116
+76.1065
+75.406
+75.7565
+75.7257
+ 
+32768
+2097152
+151.529
+150.998
+151.053
+151.008
+150.529
+151.114
+150.503
+151.074
+151.722
+150.863
+ 
+65536
+2097152
+300.639
+301.069
+301.069
+301.083
+299.843
+300.03
+299.986
+300.123
+298.847
+298.092
+ 
+131072
+2097152
+604.684
+604.811
+604.816
+602.352
+597.982
+596.235
+599.277
+598.336
+598.835
+596.46
+ 
+262144
+2097152
+1206.45
+1201.32
+1201.98
+1202.15
+1192.51
+1194.15
+1189.12
+1189.56
+1189.62
+1189.61
+ 
+524288
+2097152
+2384.89
+2367.48
+2379.77
+2359.67
+2372.42
+2370.62
+2371.08
+2381.03
+2388.82
+2377.23
+ 
+1048576
+2097152
+4757.23
+4735.61
+4737.22
+4699.57
+4701.67
+4684.82
+4706.57
+4686.81
+4688.59
+4707.7
+ 
+1
+4194304
+57.0052
+56.9251
+56.9363
+56.9548
+56.9437
+56.9388
+56.937
+56.9434
+56.9532
+56.9689
+ 
+2
+4194304
+49.3775
+49.3347
+49.3056
+49.3264
+49.3021
+49.3237
+49.3338
+49.3259
+49.3212
+49.3256
+ 
+4
+4194304
+49.3549
+49.3276
+49.3127
+49.3092
+49.3328
+49.32
+49.3096
+49.3249
+49.3076
+49.3093
+ 
+8
+4194304
+22.0015
+21.9775
+21.9586
+21.9722
+21.9577
+21.9835
+21.9819
+21.982
+21.9793
+21.9876
+ 
+16
+4194304
+13.9144
+13.8893
+13.8763
+13.8836
+13.8986
+13.9004
+13.9067
+13.9113
+13.9098
+13.9002
+ 
+32
+4194304
+15.7003
+15.6913
+15.672
+15.682
+15.6918
+15.6885
+15.6881
+15.6809
+15.6932
+15.6947
+ 
+64
+4194304
+6.98006
+6.80074
+6.75757
+6.71798
+6.73104
+6.96627
+6.81718
+6.74378
+6.78454
+6.80163
+ 
+128
+4194304
+6.86442
+6.82861
+6.82298
+6.71802
+6.72611
+6.80806
+6.83526
+6.81798
+6.78954
+6.80717
+ 
+256
+4194304
+6.63606
+6.5535
+6.56467
+6.61478
+6.60624
+6.58698
+6.55661
+6.57853
+6.58483
+6.60253
+ 
+512
+4194304
+7.12426
+7.0527
+7.07514
+7.0593
+7.10266
+7.07734
+7.11837
+7.10438
+7.08909
+7.10054
+ 
+1024
+4194304
+8.948
+8.92067
+8.90762
+8.90259
+8.9335
+8.93984
+8.95491
+8.97437
+8.9343
+8.93981
+ 
+2048
+4194304
+12.6789
+12.5125
+12.5857
+12.5943
+12.6521
+12.6522
+12.4941
+12.5916
+12.5571
+12.5215
+ 
+4096
+4194304
+21.1619
+20.9725
+21.0507
+20.9626
+20.9654
+20.9681
+21.0436
+21.0535
+21.0563
+21.0589
+ 
+8192
+4194304
+39.26
+39.2332
+39.0769
+39.2414
+39.23
+39.4024
+39.2724
+39.0644
+39.2391
+39.0979
+ 
+16384
+4194304
+76.2395
+76.8733
+76.7973
+76.8529
+76.8077
+76.8157
+76.7778
+76.4819
+76.5171
+77.1256
+ 
+32768
+4194304
+151.498
+151.45
+150.88
+151.48
+151.51
+151.56
+152.064
+152.718
+151.526
+152.147
+ 
+65536
+4194304
+302.091
+301.047
+299.765
+301.455
+301.407
+300.105
+302.441
+300.997
+299.697
+298.572
+ 
+131072
+4194304
+601.277
+601.91
+601.657
+604.287
+599.038
+599.957
+600.258
+599.928
+599.967
+597.751
+ 
+262144
+4194304
+1195.61
+1196.72
+1181.91
+1184.47
+1184.13
+1180.63
+1181.4
+1181.13
+1181.05
+1186.13
+ 
+524288
+4194304
+2396.17
+2396.23
+2385.66
+2387.75
+2377.53
+2379.74
+2370.22
+2361.31
+2373.18
+2372.24
+ 
+1048576
+4194304
+4736.94
+4761.98
+4722.85
+4731.38
+4747.1
+4724.34
+4727.34
+4747.37
+4743.98
+4722.68
+ 
+1
+8388608
+113.846
+113.749
+113.76
+113.752
+113.786
+113.751
+113.762
+113.759
+113.733
+113.773
+ 
+2
+8388608
+75.9305
+75.8852
+75.8666
+75.8447
+75.8478
+75.8813
+75.8854
+75.8745
+75.9028
+75.8673
+ 
+4
+8388608
+125.271
+125.259
+125.275
+125.299
+125.297
+125.319
+125.317
+125.277
+125.255
+125.248
+ 
+8
+8388608
+49.3455
+49.3244
+49.3293
+49.3689
+49.3604
+49.3474
+49.3606
+49.3423
+49.3391
+49.3429
+ 
+16
+8388608
+40.2766
+40.27
+40.2409
+40.2508
+40.281
+40.2331
+40.2474
+40.2282
+40.2469
+40.2169
+ 
+32
+8388608
+22.9804
+22.8995
+23.1119
+22.8794
+22.988
+22.9243
+22.8714
+22.9627
+22.9937
+23.1556
+ 
+64
+8388608
+13.7087
+13.4601
+13.5693
+13.624
+13.8703
+13.7518
+13.5617
+13.4764
+13.6356
+13.4295
+ 
+128
+8388608
+14.764
+14.5602
+14.515
+14.8087
+14.5782
+14.6867
+14.4449
+14.522
+14.6079
+14.5057
+ 
+256
+8388608
+11.984
+12.0295
+12.0633
+12.026
+12.0875
+12.0541
+12.0921
+12.0491
+12.0728
+12.0859
+ 
+512
+8388608
+12.4451
+12.4825
+12.4821
+12.4833
+12.4126
+12.4582
+12.4548
+12.4414
+12.445
+12.4072
+ 
+1024
+8388608
+13.8927
+13.8795
+13.9107
+13.9008
+13.9415
+13.8811
+13.93
+13.8475
+13.9094
+13.9133
+ 
+2048
+8388608
+17.4371
+17.4697
+17.3857
+17.4152
+17.3976
+17.3583
+17.3619
+17.4862
+17.408
+17.4088
+ 
+4096
+8388608
+25.3781
+25.144
+25.1382
+25.0472
+25.0218
+25.243
+24.9673
+25.1187
+25.2573
+25.1444
+ 
+8192
+8388608
+42.1549
+41.9281
+42.1028
+42.2806
+42.2683
+42.297
+42.3036
+42.4807
+42.2894
+42.2667
+ 
+16384
+8388608
+78.5911
+78.8876
+78.5711
+78.8723
+78.5355
+78.5698
+78.8776
+78.905
+78.8462
+79.2595
+ 
+32768
+8388608
+154.144
+154.821
+152.912
+152.288
+152.778
+152.9
+152.843
+152.91
+154.178
+152.812
+ 
+65536
+8388608
+299.899
+304.002
+302.793
+303.902
+302.925
+301.684
+304.005
+301.46
+302.79
+302.593
+ 
+131072
+8388608
+605.566
+606.265
+609.17
+603.693
+599.432
+602.216
+601.555
+604.199
+608.59
+606.286
+ 
+262144
+8388608
+1202.9
+1199.33
+1201.01
+1201.04
+1195.89
+1196.71
+1197.18
+1197.57
+1196.61
+1196.75
+ 
+524288
+8388608
+2403.4
+2374.9
+2379.11
+2378.76
+2378.85
+2378.81
+2379.05
+2378.23
+2379.17
+2379.14
+ 
+1048576
+8388608
+4757.08
+4758.69
+4761.27
+4764.1
+4742.44
+4727.33
+4729.02
+4748.3
+4744.7
+4767.23
+ 
+1
+16777216
+228.821
+228.857
+228.827
+228.922
+228.9
+228.897
+228.828
+228.823
+228.844
+228.845
+ 
+2
+16777216
+163.319
+163.224
+163.196
+163.189
+163.209
+163.184
+163.175
+163.162
+163.176
+163.107
+ 
+4
+16777216
+136.237
+136.196
+136.202
+136.202
+136.178
+136.197
+136.142
+136.226
+136.206
+136.185
+ 
+8
+16777216
+75.5529
+75.4875
+75.4839
+75.5186
+75.5182
+75.5145
+75.4954
+75.5267
+75.5305
+75.5342
+ 
+16
+16777216
+78.3159
+78.2766
+78.3471
+78.3455
+78.255
+78.3225
+78.2866
+78.2495
+78.2558
+78.282
+ 
+32
+16777216
+36.7277
+36.5301
+36.3901
+36.7382
+36.4898
+36.6586
+36.6371
+36.4333
+36.5097
+36.4402
+ 
+64
+16777216
+32.1457
+31.7274
+32.2456
+32.2491
+32.1252
+32.5916
+31.8922
+32.2717
+32.2306
+31.9617
+ 
+128
+16777216
+30.3418
+29.9284
+30.2302
+30.0707
+30.0447
+29.4253
+29.5976
+29.8224
+30.0189
+30.0008
+ 
+256
+16777216
+22.3819
+22.7113
+22.6421
+22.6702
+22.4008
+22.7603
+22.6409
+22.6274
+22.4214
+22.5989
+ 
+512
+16777216
+22.9958
+22.7673
+22.8471
+22.8444
+22.8304
+22.873
+22.8678
+22.8932
+23.0104
+22.8672
+ 
+1024
+16777216
+24.1961
+24.0524
+24.0961
+24.1404
+24.0139
+24.144
+24.0139
+24.0692
+24.1988
+24.2393
+ 
+2048
+16777216
+27.4194
+27.3264
+27.3373
+27.6043
+27.3927
+27.3382
+27.4144
+27.4901
+27.4042
+27.4885
+ 
+4096
+16777216
+34.8693
+34.6405
+34.859
+34.8256
+34.8558
+34.9852
+34.8315
+34.8196
+34.8945
+34.7386
+ 
+8192
+16777216
+49.8868
+50.0231
+50.209
+50.4109
+50.0393
+50.047
+50.4474
+50.2698
+49.8409
+50.2315
+ 
+16384
+16777216
+84.9207
+84.5534
+84.9049
+84.5611
+84.2034
+83.8356
+84.2186
+84.9146
+84.9032
+84.5414
+ 
+32768
+16777216
+157.719
+157.722
+157.074
+157.11
+157.048
+157.68
+157.726
+157.676
+157.705
+157.092
+ 
+65536
+16777216
+304.427
+305.687
+305.644
+306.962
+305.699
+308.238
+305.593
+308.225
+305.808
+308.359
+ 
+131072
+16777216
+603.091
+603.048
+605.113
+603.269
+605.524
+605.953
+605.81
+605.409
+605.638
+607.915
+ 
+262144
+16777216
+1202.98
+1204.02
+1209.45
+1209.51
+1204.62
+1199.94
+1200.61
+1205.96
+1204.3
+1209.56
+ 
+524288
+16777216
+2413
+2415.82
+2396.45
+2389.55
+2412.71
+2409.17
+2400.39
+2393.82
+2394.7
+2385.55
+ 
+1048576
+16777216
+4806.33
+4788.3
+4775.72
+4775.01
+4775.57
+4773.74
+4793.52
+4773.01
+4755.28
+4759.32
+ 
+1
+33554432
+458.438
+458.476
+458.201
+458.331
+458.446
+458.415
+458.463
+458.501
+458.477
+458.464
+ 
+2
+33554432
+621.671
+621.824
+622.044
+621.73
+621.736
+621.657
+621.477
+621.507
+621.508
+621.664
+ 
+4
+33554432
+228.074
+228.012
+228.049
+228.106
+228.062
+228.091
+228.073
+228.114
+228.034
+228.105
+ 
+8
+33554432
+336.063
+336.037
+335.999
+335.941
+336.002
+336.059
+336.038
+335.999
+335.928
+335.92
+ 
+16
+33554432
+114.919
+114.874
+114.964
+114.879
+114.93
+114.865
+114.88
+114.942
+114.907
+114.932
+ 
+32
+33554432
+92.8367
+92.7989
+92.7561
+92.7253
+92.8132
+92.5265
+92.7491
+92.6213
+92.9339
+92.5992
+ 
+64
+33554432
+87.4961
+86.9216
+87.3184
+87.3614
+86.7974
+86.7296
+87.1298
+86.4327
+86.4103
+87.3054
+ 
+128
+33554432
+48.7627
+47.6533
+48.6019
+48.1545
+48.1879
+48.833
+49.3074
+48.8172
+49.0276
+48.6839
+ 
+256
+33554432
+50.3095
+50.7867
+50.576
+50.6609
+50.6272
+50.6546
+50.449
+50.8996
+50.5363
+50.9848
+ 
+512
+33554432
+44.3223
+44.5181
+44.7476
+44.6657
+44.3859
+44.3751
+44.4468
+44.4023
+44.5178
+44.4646
+ 
+1024
+33554432
+44.1686
+44.1494
+44.2382
+44.0377
+44.111
+43.8747
+43.7832
+44.4328
+44.2129
+43.9913
+ 
+2048
+33554432
+47.8354
+47.5537
+47.4853
+47.6011
+47.7777
+47.5179
+47.7547
+47.6034
+47.6865
+47.631
+ 
+4096
+33554432
+54.5917
+54.4894
+54.7964
+54.6524
+54.8358
+54.8594
+54.4894
+54.6642
+54.6861
+54.8533
+ 
+8192
+33554432
+69.2595
+69.1391
+69.2026
+69.3487
+69.415
+69.3753
+69.3733
+69.4085
+69.6232
+69.6391
+ 
+16384
+33554432
+99.4517
+99.4324
+100.577
+100.553
+99.4363
+100.198
+100.66
+100.278
+100.209
+99.7945
+ 
+32768
+33554432
+168.803
+168.019
+169.467
+168.826
+168.718
+168.772
+168.026
+168.849
+168.102
+168.074
+ 
+65536
+33554432
+315.376
+316.637
+313.917
+315.228
+313.97
+313.839
+315.422
+315.425
+318.258
+313.994
+ 
+131072
+33554432
+608.831
+611.384
+613.749
+613.707
+613.699
+608.871
+616.573
+616.677
+611.377
+613.639
+ 
+262144
+33554432
+Sync kernel error: invalid configuration argument
+0.004352
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+524288
+33554432
+Sync kernel error: invalid configuration argument
+0.003872
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+1048576
+33554432
+Sync kernel error: invalid configuration argument
+0.004064
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+1
+67108864
+Sync kernel error: invalid configuration argument
+0.004352
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002112
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002304
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+2
+67108864
+Sync kernel error: invalid configuration argument
+0.003008
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+4
+67108864
+Sync kernel error: invalid configuration argument
+0.004192
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+8
+67108864
+Sync kernel error: invalid configuration argument
+0.003168
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+16
+67108864
+Sync kernel error: invalid configuration argument
+0.00432
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+32
+67108864
+Sync kernel error: invalid configuration argument
+0.004256
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+64
+67108864
+Sync kernel error: invalid configuration argument
+0.0032
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+128
+67108864
+Sync kernel error: invalid configuration argument
+0.002816
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002176
+Sync kernel error: invalid configuration argument
+0.002112
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+256
+67108864
+Sync kernel error: invalid configuration argument
+0.003072
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002144
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.00224
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+512
+67108864
+Sync kernel error: invalid configuration argument
+0.004544
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+1024
+67108864
+ 
+2048
+67108864
+Sync kernel error: invalid configuration argument
+0.002976
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+4096
+67108864
+Sync kernel error: invalid configuration argument
+0.002784
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+8192
+67108864
+Sync kernel error: invalid configuration argument
+0.003296
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+16384
+67108864
+Sync kernel error: invalid configuration argument
+0.006272
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.002144
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+32768
+67108864
+Sync kernel error: invalid configuration argument
+0.003232
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002144
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002272
+ 
+65536
+67108864
+Sync kernel error: invalid configuration argument
+0.003936
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+131072
+67108864
+Sync kernel error: invalid configuration argument
+0.00304
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.00224
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002112
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+262144
+67108864
+Sync kernel error: invalid configuration argument
+0.004576
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.00224
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+524288
+67108864
+Sync kernel error: invalid configuration argument
+0.002752
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.00224
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+1048576
+67108864
+Sync kernel error: invalid configuration argument
+0.005824
+Sync kernel error: invalid configuration argument
+0.002144
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002144
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.00208
+ 
+1
+134217728
+Sync kernel error: invalid configuration argument
+0.003968
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.00208
+ 
+2
+134217728
+Sync kernel error: invalid configuration argument
+0.004224
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002112
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+4
+134217728
+Sync kernel error: invalid configuration argument
+0.004704
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+8
+134217728
+Sync kernel error: invalid configuration argument
+0.004352
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+16
+134217728
+Sync kernel error: invalid configuration argument
+0.003584
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+32
+134217728
+Sync kernel error: invalid configuration argument
+0.004512
+Sync kernel error: invalid configuration argument
+0.002144
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+64
+134217728
+Sync kernel error: invalid configuration argument
+0.004288
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+128
+134217728
+Sync kernel error: invalid configuration argument
+0.004512
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.00208
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+256
+134217728
+Sync kernel error: invalid configuration argument
+0.003104
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+512
+134217728
+ 
+1024
+134217728
+ 
+2048
+134217728
+Sync kernel error: invalid configuration argument
+0.00304
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+4096
+134217728
+Sync kernel error: invalid configuration argument
+0.00416
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+8192
+134217728
+ 
+16384
+134217728
+ 
+32768
+134217728
+ 
+65536
+134217728
+Sync kernel error: invalid configuration argument
+0.004576
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002208
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+131072
+134217728
+Sync kernel error: invalid configuration argument
+0.004512
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+ 
+262144
+134217728
+Sync kernel error: invalid configuration argument
+0.00448
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002112
+Sync kernel error: invalid configuration argument
+0.002144
+Sync kernel error: invalid configuration argument
+0.002048
+Sync kernel error: invalid configuration argument
+0.002016
+Sync kernel error: invalid configuration argument
+0.002048
+ 
+524288
+134217728
+2456.37
+2455.93
+2466.49
+2445.71
+2446.91
+2446.09
+2456.99
+2446.61
+2469.22
+2457.96
+ 
+1048576
+134217728
+4824.38
+4804.5
+4846.29
+4828.81
+4808.55
+4838.81
+4817.98
+4819.31
+4817.09
+4838.46
