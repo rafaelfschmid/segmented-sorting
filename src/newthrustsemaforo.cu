@@ -42,8 +42,8 @@ void print(thrust::host_vector<int> h_vec) {
 }
 
 //template<class T>
-//void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
-void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+//void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
 	thrust::sort(exec,first,last);
 }
 
@@ -90,21 +90,23 @@ int main(void) {
 		cudaEventRecord(start);
 
 		omp_set_num_threads(nstreams);
-		int i = 0;
+		int s = 0;
 		#pragma omp parallel
 		{
+			uint id = omp_get_thread_num(); //cpu_thread_id
+
 			while(true) {
 				omp_set_lock(&semaphore_lock);
-				uint k = i;
-				i++;
-
-				if(i >= num_of_segments) {
-					break;
-				}
+				uint k = s;
+				s++;
 				omp_unset_lock(&semaphore_lock);
 
-				printf("i=%d   ---   k=%d\n", i, k);
-				thrust::sort(thrust::cuda::par.on(streams[segMachine[k]]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]);
+				if(k >= num_of_segments) {
+					break;
+				}
+				//printf("i=%d   ---   k=%d\n", s, k);
+
+				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]);
 			}
 		}
 
