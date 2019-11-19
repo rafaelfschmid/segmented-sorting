@@ -3,7 +3,7 @@
 #EXECS=1
 #STREAMS=32
 
-arch= -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_37,code=sm_37 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_60,code=sm_60
+arch= -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_37,code=sm_37 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_60,code=sm_60 -gencode arch=compute_61,code=sm_61
 
 all: mergeseg radixseg fixcub fixthrust nthrust fixseq mseq
 
@@ -40,6 +40,9 @@ fixpassseq: fixpassseq.cu
 mseq: mseq.cu
 	nvcc $(arch) mseq.cu -o mseq.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
+
+newthrustsemaforo: newthrustsemaforo.cu
+	nvcc -ccbin g++ -Xcompiler -fopenmp $(arch) newthrustsemaforo.cu -o newthrustsemaforo$(STREAMS).exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$(STREAMS)
 
 
 newthrust: newthrust.cu

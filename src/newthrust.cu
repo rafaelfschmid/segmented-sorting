@@ -42,8 +42,8 @@ void print(thrust::host_vector<int> h_vec) {
 }
 
 //template<class T>
-//void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
-void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+//void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
 	thrust::sort(exec,first,last);
 }
 
