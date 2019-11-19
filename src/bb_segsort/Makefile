@@ -1,11 +1,12 @@
-ARCH=21
+ARCH=61
 
-NVFLAGS=-std=c++11 -gencode arch=compute_${ARCH},code=sm_${ARCH} -O3 
+NVFLAGS=-std=c++11 -gencode arch=compute_${ARCH},code=sm_${ARCH} -O3 -lcuda --expt-relaxed-constexpr -DEXECUTIONS=${EXECS} -DELAPSED_TIME=${TIME}
 
 all: 
-	nvcc $(NVFLAGS) main.cu -o main.out
+	nvcc $(NVFLAGS) main.cu -o bb_segsort.exe
 
 clean:
-	rm main.out
+	rm bb_segsort.exe
+
 
 	

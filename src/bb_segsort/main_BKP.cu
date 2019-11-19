@@ -22,14 +22,6 @@
 
 #include "bb_segsort.h"
 
-#ifndef ELAPSED_TIME
-#define ELAPSED_TIME 0
-#endif
-
-#ifndef EXECUTIONS
-#define EXECUTIONS 1
-#endif
-
 using namespace std;
 
 #define CUDA_CHECK(_e, _s) if(_e != cudaSuccess) { \
@@ -41,80 +33,82 @@ void gold_segsort(vector<K> &key, vector<T> &val, int n, const vector<int> &seg,
 
 int show_mem_usage();
 
-template<typename T>
-void print(T host_data, uint n) {
-	std::cout << "\n";
-	for (uint i = 0; i < n; i++) {
-		std::cout << host_data[i] << " ";
-	}
-	std::cout << "\n";
-}
-
 int main(int argc, char **argv)
 {
-	uint num_of_segments;
-	uint num_of_elements;
-	uint i;
+    cudaError_t err;
+    int n = 10000; //400000000
+    vector<int>    key(n, 0);
+    vector<double> val(n, 0.0);
+    for(auto &k: key)
+        k = rand()%(n-1-0+1)+0;
+    for(auto &v: val)
+        v = (double)(rand()%(n-1-0+1)+0);
+    int max_seg_sz = 10000;
+    int min_seg_sz = 0;
+    vector<int>    seg;
+    int off = 0;
+    seg.push_back(off); // must have a zero
+    while(off < n)
+    {
+        seg.push_back(off);
+        int sz = rand()%(max_seg_sz-min_seg_sz+1)+min_seg_sz;
+        std::cout << seg.back()+sz << "\n";
+        off = seg.back()+sz;
+    }
+    int m = seg.size();
+    printf("synthesized segments # %d (max_size: %d, min_size: %d)\n", m, max_seg_sz, min_seg_sz);
 
-	scanf("%d", &num_of_segments);
+    // cout << "key:\n"; for(auto k: key) cout << k << ", "; cout << endl;
+    // cout << "val:\n"; for(auto v: val) cout << v << ", "; cout << endl;
+     //cout << "seg:\n"; for(auto s: seg) cout << s << ", "; cout << endl;
 
-	vector<int>    h_seg(num_of_segments, 0);
-	for (i = 0; i < num_of_segments+1; i++)
-		scanf("%d", &h_seg[i]);
+    int    *key_d;
+    double *val_d;
+    int    *seg_d;
+    err = cudaMalloc((void**)&key_d, sizeof(int   )*n);
+    CUDA_CHECK(err, "alloc key_d");
+    err = cudaMalloc((void**)&val_d, sizeof(double)*n);
+    CUDA_CHECK(err, "alloc val_d");
+    err = cudaMalloc((void**)&seg_d, sizeof(int   )*n);
+    CUDA_CHECK(err, "alloc seg_d");
 
-	scanf("%d", &num_of_elements);
+    err = cudaMemcpy(key_d, &key[0], sizeof(int   )*n, cudaMemcpyHostToDevice);
+    CUDA_CHECK(err, "copy to key_d");
+    err = cudaMemcpy(val_d, &val[0], sizeof(double)*n, cudaMemcpyHostToDevice);
+    CUDA_CHECK(err, "copy to val_d");
+    err = cudaMemcpy(seg_d, &seg[0], sizeof(int   )*m, cudaMemcpyHostToDevice);
+    CUDA_CHECK(err, "copy to seg_d");
 
-	vector<int>    h_vec(num_of_elements, 0);
-	vector<double> h_val(num_of_elements, 0.0);
-	for (i = 0; i < num_of_elements; i++) {
-		scanf("%d", &h_vec[i]);
-		h_val[i] = h_vec[i];
-	}
+    show_mem_usage();
 
+    gold_segsort(key, val, n, seg, m);
 
-	cudaEvent_t start, stop;
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
+    // cout << "key:\n"; for(auto k: key) cout << k << ", "; cout << endl;
+    // cout << "val:\n"; for(auto v: val) cout << v << ", "; cout << endl;
 
-	int    *key_d;
-	double *val_d;
-	int    *seg_d;
-	cudaError_t err;
+    // for(int i = 0; i < 3; i++) // test repeated execution
+    bb_segsort(key_d, val_d, n, seg_d, m);
 
-	err = cudaMalloc((void**)&key_d, sizeof(int   )*num_of_elements);
-	CUDA_CHECK(err, "alloc key_d");
-	err = cudaMalloc((void**)&val_d, sizeof(double)*num_of_elements);
-	CUDA_CHECK(err, "alloc val_d");
-	err = cudaMalloc((void**)&seg_d, sizeof(int   )*num_of_segments);
-	CUDA_CHECK(err, "alloc seg_d");
+    vector<int>    key_h(n, 0);
+    vector<double> val_h(n, 0.0);
+    err = cudaMemcpy(&key_h[0], key_d, sizeof(int   )*n, cudaMemcpyDeviceToHost);
+    CUDA_CHECK(err, "copy from key_d");
+    err = cudaMemcpy(&val_h[0], val_d, sizeof(double)*n, cudaMemcpyDeviceToHost);
+    CUDA_CHECK(err, "copy from val_d");
 
-	err = cudaMemcpy(seg_d, &h_seg[0], sizeof(int   )*num_of_segments, cudaMemcpyHostToDevice);
-	CUDA_CHECK(err, "copy to seg_d");
+    // cout << "key_h:\n"; for(auto k: key_h) cout << k << ", "; cout << endl;
+    // cout << "val_h:\n"; for(auto v: val_h) cout << v << ", "; cout << endl;
 
-	for (uint j = 0; j < EXECUTIONS; j++) {
-		err = cudaMemcpy(key_d, &h_vec[0], sizeof(int   )*num_of_elements, cudaMemcpyHostToDevice);
-		CUDA_CHECK(err, "copy to key_d");
-		err = cudaMemcpy(val_d, &h_val[0], sizeof(double)*num_of_elements, cudaMemcpyHostToDevice);
-		CUDA_CHECK(err, "copy to val_d");
-
-		cudaEventRecord(start);
-		bb_segsort(key_d, val_d, num_of_elements, seg_d, num_of_segments);
-		cudaEventRecord(stop);
-
-		err = cudaMemcpy(&h_vec[0], key_d, sizeof(int   )*num_of_elements, cudaMemcpyDeviceToHost);
-		CUDA_CHECK(err, "copy from key_d");
-		err = cudaMemcpy(&h_val[0], val_d, sizeof(double)*num_of_elements, cudaMemcpyDeviceToHost);
-		CUDA_CHECK(err, "copy from val_d");
-
-		if (ELAPSED_TIME == 1) {
-			cudaEventSynchronize(stop);
-			float milliseconds = 0;
-			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
-		}
-
-		cudaDeviceSynchronize();
-	}
+    int cnt = 0; 
+    for(int i = 0; i < n; i++)
+        if(key[i] != key_h[i]) cnt++;
+    if(cnt != 0) printf("[NOT PASSED] checking keys: #err = %i (%4.2f%% #nnz)\n", cnt, 100.0*(double)cnt/n);
+    else printf("[PASSED] checking keys\n");
+    cnt = 0;
+    for(int i = 0; i < n; i++)
+        if(val[i] != val_h[i]) cnt++;
+    if(cnt != 0) printf("[NOT PASSED] checking vals: #err = %i (%4.2f%% #nnz)\n", cnt, 100.0*(double)cnt/n);
+    else printf("[PASSED] checking vals\n");
 
     err = cudaFree(key_d);
     CUDA_CHECK(err, "free key_d");
@@ -122,27 +116,8 @@ int main(int argc, char **argv)
     CUDA_CHECK(err, "free val_d");
     err = cudaFree(seg_d);
     CUDA_CHECK(err, "free seg_d");
-
-	if (ELAPSED_TIME != 1) {
-		print(h_vec.data(), num_of_elements);
-	}
-
-	return 0;
-
 }
 
-/*show_mem_usage();
-gold_segsort(h_vec, h_val, num_of_elements, h_seg, num_of_segments);
-int cnt = 0;
-for(int i = 0; i < num_of_elements; i++)
-	if(h_vec[i] != key_h[i]) cnt++;
-if(cnt != 0) printf("[NOT PASSED] checking keys: #err = %i (%4.2f%% #nnz)\n", cnt, 100.0*(double)cnt/num_of_elements);
-else printf("[PASSED] checking keys\n");
-cnt = 0;
-for(int i = 0; i < num_of_elements; i++)
-	if(h_val[i] != val_h[i]) cnt++;
-if(cnt != 0) printf("[NOT PASSED] checking vals: #err = %i (%4.2f%% #nnz)\n", cnt, 100.0*(double)cnt/num_of_elements);
-else printf("[PASSED] checking vals\n");*/
 
 template<class K, class T>
 void gold_segsort(vector<K> &key, vector<T> &val, int n, const vector<int> &seg, int m)
