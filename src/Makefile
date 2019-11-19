@@ -40,10 +40,13 @@ fixpassseq: fixpassseq.cu
 mseq: mseq.cu
 	nvcc $(arch) mseq.cu -o mseq.exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS)
 
+#############################################
+cpu-gpu-thrust: cpu-gpu-thrust.cu
+	nvcc -ccbin g++ -Xcompiler -fopenmp $(arch) cpu-gpu-thrust.cu -o cpu-gpu-thrust$(STREAMS).exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$(STREAMS)
 
 newthrustsemaforo: newthrustsemaforo.cu
 	nvcc -ccbin g++ -Xcompiler -fopenmp $(arch) newthrustsemaforo.cu -o newthrustsemaforo$(STREAMS).exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$(STREAMS)
-
+############################################
 
 newthrust: newthrust.cu
 	nvcc -ccbin g++ -Xcompiler -fopenmp $(arch) newthrust.cu -o newthrust$(STREAMS).exe -std=c++11 --expt-extended-lambda -lcuda -DELAPSED_TIME=$(TIME) -DEXECUTIONS=$(EXECS) -DNUM_STREAMS=$(STREAMS)
