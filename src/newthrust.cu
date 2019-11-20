@@ -42,8 +42,8 @@ void print(thrust::host_vector<int> h_vec) {
 }
 
 //template<class T>
-void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
-//void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+//void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
 	thrust::sort(exec,first,last);
 }
 
@@ -76,7 +76,8 @@ int main(void) {
 	if(NUM_STREAMS > num_of_segments)
 		nstreams = num_of_segments;
 
-	
+
+	float averageExecutions = 0;
 	for (uint i = 0; i < EXECUTIONS; i++) {
 		cudaEvent_t start, stop;
 		cudaEventCreate(&start);
@@ -174,7 +175,7 @@ int main(void) {
 			cudaEventSynchronize(stop);
 			float milliseconds = 0;
 			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
+			averageExecutions += milliseconds;
 		}
 
 		cudaDeviceSynchronize();
@@ -185,6 +186,9 @@ int main(void) {
 	if (ELAPSED_TIME != 1) {
 		print(h_vec);
 	}
+	else {
+			std::cout << averageExecutions/EXECUTIONS << "\n";
+		}
 
 	cudaFree(streams);
 

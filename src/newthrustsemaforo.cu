@@ -16,9 +16,6 @@
 #include <thrust/copy.h>
 #include <thrust/system/cuda/detail/par.h>
 
-#include <future>
-#include <thread>
-
 #include <iostream>
 #include <omp.h>
 #include <vector>
@@ -42,8 +39,8 @@ void print(thrust::host_vector<int> h_vec) {
 }
 
 //template<class T>
-void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
-//void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+//void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
 	thrust::sort(exec,first,last);
 }
 
@@ -79,6 +76,8 @@ int main(void) {
 	omp_lock_t semaphore_lock;
 	omp_init_lock(&semaphore_lock);
 	
+	float averageExecutions = 0;
+
 	for (uint i = 0; i < EXECUTIONS; i++) {
 		cudaEvent_t start, stop;
 		cudaEventCreate(&start);
@@ -104,7 +103,6 @@ int main(void) {
 				if(k >= num_of_segments) {
 					break;
 				}
-				//printf("i=%d   ---   k=%d\n", s, k);
 
 				thrust::sort(thrust::cuda::par.on(streams[id]), d_vec.begin() + h_seg[k], d_vec.begin() + h_seg[k + 1]);
 			}
@@ -117,7 +115,7 @@ int main(void) {
 			cudaEventSynchronize(stop);
 			float milliseconds = 0;
 			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
+			averageExecutions += milliseconds;
 		}
 
 		cudaDeviceSynchronize();
@@ -127,6 +125,9 @@ int main(void) {
 
 	if (ELAPSED_TIME != 1) {
 		print(h_vec);
+	}
+	else {
+		std::cout << averageExecutions/EXECUTIONS << "\n";
 	}
 
 	cudaFree(streams);

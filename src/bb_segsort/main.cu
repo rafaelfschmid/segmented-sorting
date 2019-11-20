@@ -91,6 +91,7 @@ int main(int argc, char **argv)
 	err = cudaMemcpy(seg_d, &h_seg[0], sizeof(int   )*num_of_segments, cudaMemcpyHostToDevice);
 	CUDA_CHECK(err, "copy to seg_d");
 
+	float averageExecutions = 0;
 	for (uint j = 0; j < EXECUTIONS; j++) {
 		err = cudaMemcpy(key_d, &h_vec[0], sizeof(int   )*num_of_elements, cudaMemcpyHostToDevice);
 		CUDA_CHECK(err, "copy to key_d");
@@ -110,7 +111,7 @@ int main(int argc, char **argv)
 			cudaEventSynchronize(stop);
 			float milliseconds = 0;
 			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
+			averageExecutions += milliseconds;
 		}
 
 		cudaDeviceSynchronize();
@@ -126,6 +127,9 @@ int main(int argc, char **argv)
 	if (ELAPSED_TIME != 1) {
 		print(h_vec.data(), num_of_elements);
 	}
+	else {
+			std::cout << averageExecutions/EXECUTIONS << "\n";
+		}
 
 	return 0;
 

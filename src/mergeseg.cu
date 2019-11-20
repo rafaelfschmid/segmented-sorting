@@ -29,6 +29,10 @@
 #include <iostream>
 #include <chrono>
 
+#include <moderngpu/context.hxx>
+
+//#include <ofstream>
+
 #ifndef ELAPSED_TIME
 #define ELAPSED_TIME 0
 #endif
@@ -60,11 +64,17 @@ void printSeg(uint* host_data, uint num_seg, uint num_ele) {
 	std::cout << "\n";
 }
 
+
+
+
 int main(int argc, char** argv) {
 
 	uint num_of_segments;
 	uint num_of_elements;
 	uint i;
+
+	//std::ofstream f_out;
+	//f_out.open(argv[1], std::ios::app);
 
 	scanf("%d", &num_of_segments);
 	uint mem_size_seg = sizeof(uint) * (num_of_segments);
@@ -94,6 +104,9 @@ int main(int argc, char** argv) {
 	cudaTest(cudaMalloc((void **) &d_vec, mem_size_vec));
 	cudaTest(cudaMalloc((void **) &d_index_resp, mem_size_vec));
 
+	mgpu::standard_context_t context;
+
+	float averageExecutions = 0;
 	for (uint j = 0; j < EXECUTIONS; j++) {
 
 		// copy host memory to device
@@ -102,7 +115,6 @@ int main(int argc, char** argv) {
 
 		try {
 		cudaEventRecord(start);
-		mgpu::standard_context_t context;
 		mgpu::segmented_sort(d_vec, d_index_resp, num_of_elements, d_seg,
 				num_of_segments, mgpu::less_t<uint>(), context);
 		cudaEventRecord(stop);
@@ -119,10 +131,10 @@ int main(int argc, char** argv) {
 			cudaEventSynchronize(stop);
 			float milliseconds = 0;
 			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
+			averageExecutions += milliseconds;
 		}
 
-		cudaDeviceSynchronize();
+		context.synchronize();
 	}
 
 	cudaTest(cudaMemcpy(h_vec, d_vec, mem_size_vec, cudaMemcpyDeviceToHost));
@@ -134,6 +146,12 @@ int main(int argc, char** argv) {
 	if (ELAPSED_TIME != 1) {
 		print(h_vec, num_of_elements);
 	}
+	else {
+
+
+
+			std::cout << averageExecutions/EXECUTIONS << "\n";
+		}
 
 	free(h_seg);
 	free(h_vec);

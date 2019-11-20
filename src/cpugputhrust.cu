@@ -82,13 +82,14 @@ int main(void) {
 	omp_lock_t semaphore_lock;
 	omp_init_lock(&semaphore_lock);
 	
+	float averageExecutions = 0;
 	for (uint i = 0; i < EXECUTIONS; i++) {
 		cudaEvent_t start, stop;
 		cudaEventCreate(&start);
 		cudaEventCreate(&stop);
 
-		for (i = 0; i < num_of_elements; i++)
-			d_vec[i] = h_vec_aux[i];
+		for (uint j = 0; j < num_of_elements; j++)
+			d_vec[j] = h_vec_aux[j];
 
 		//print(h_seg, num_of_segments);
 		//print(d_vec, num_of_elements);
@@ -147,7 +148,7 @@ int main(void) {
 			cudaEventSynchronize(stop);
 			float milliseconds = 0;
 			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
+			averageExecutions += milliseconds;
 		}
 
 		cudaDeviceSynchronize();
@@ -156,6 +157,9 @@ int main(void) {
 	if (ELAPSED_TIME != 1) {
 		print(d_vec, num_of_elements);
 	}
+	else {
+				std::cout << averageExecutions/EXECUTIONS << "\n";
+			}
 
 	cudaFree(streams);
 

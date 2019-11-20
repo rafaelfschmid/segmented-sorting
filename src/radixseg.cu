@@ -104,6 +104,7 @@ int main(int argc, char** argv) {
 	cudaTest(cudaMalloc((void **) &d_vec_out, mem_size_vec));
 	cudaTest(cudaMalloc((void **) &d_value_out, mem_size_vec));
 
+	float averageExecutions = 0;
 	for (uint i = 0; i < EXECUTIONS; i++) {
 
 		// copy host memory to device
@@ -134,7 +135,7 @@ int main(int argc, char** argv) {
 			cudaEventSynchronize(stop);
 			float milliseconds = 0;
 			cudaEventElapsedTime(&milliseconds, start, stop);
-			std::cout << milliseconds << "\n";
+			averageExecutions += milliseconds;
 		}
 
 		cudaDeviceSynchronize();
@@ -153,6 +154,9 @@ int main(int argc, char** argv) {
 	if (ELAPSED_TIME != 1) {
 		print(h_vec, num_of_elements);
 	}
+	else {
+			std::cout << averageExecutions/EXECUTIONS << "\n";
+		}
 
 	free(h_seg);
 	free(h_vec);
