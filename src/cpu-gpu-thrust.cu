@@ -43,8 +43,8 @@ void print(uint* h_vec, int n) {
 }
 
 //template<class T>
-void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
-//void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+//void kernelCall(thrust::system::cuda::detail::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
+void kernelCall(thrust::cuda_cub::execute_on_stream exec, thrust::detail::normal_iterator<thrust::device_ptr<uint>> first, thrust::detail::normal_iterator<thrust::device_ptr<uint>> last){
 	thrust::sort(exec,first,last);
 }
 
@@ -71,14 +71,13 @@ int main(void) {
 		//cudaStreamCreateWithFlags(&streams[i],cudaStreamNonBlocking);
 	}
 
-	printf("MallocManaged\n");
 	uint* d_vec;
 	cudaMallocManaged((void **)&d_vec, sizeof(uint)*num_of_elements);
-	printf("MallocManaged --- foiooiiiiii\n");
 
 	int nstreams = NUM_STREAMS;
 	if(NUM_STREAMS > num_of_segments)
 		nstreams = num_of_segments;
+	//printf("nstreams=%d\n", nstreams);
 
 	omp_lock_t semaphore_lock;
 	omp_init_lock(&semaphore_lock);
@@ -88,14 +87,13 @@ int main(void) {
 		cudaEventCreate(&start);
 		cudaEventCreate(&stop);
 
-		printf("Start copy\n");
-		for (i = 0; i < num_of_elements; i++) {
-			printf("Errooouuuuu\n");
+		for (i = 0; i < num_of_elements; i++)
 			d_vec[i] = h_vec_aux[i];
 
-		}
+		//print(h_seg, num_of_segments);
+		//print(d_vec, num_of_elements);
+
 		cudaDeviceSynchronize();
-		printf("End copy\n");
 
 		cuProfilerStart();
 		cudaEventRecord(start);
@@ -106,8 +104,8 @@ int main(void) {
 		{
 			uint id = omp_get_thread_num(); //cpu_thread_id
 
-			if(id < 0){
-				printf("teste0\n");
+			if(id < 24){
+				//printf("teste0\n");
 				while(true) {
 					omp_set_lock(&semaphore_lock);
 					uint k = s;
@@ -124,22 +122,20 @@ int main(void) {
 				}
 			}
 			else {
-				printf("teste1\n");
+				//printf("teste1\n");
 				while(true) {
-					printf("teste2\n");
 					omp_set_lock(&semaphore_lock);
 					uint k = s;
 					s++;
-					printf("teste3\n");
 					omp_unset_lock(&semaphore_lock);
 
-					printf("teste4\n");
+					//printf("s=%d   ---   k=%d\n", s, k);
+
 					if(k >= num_of_segments) {
 						break;
 					}
-					//printf("i=%d   ---   k=%d\n", s, k);
 
-					std::stable_sort(&d_vec[h_seg[k]], &d_vec[h_seg[i+1]]);
+					std::stable_sort(&d_vec[h_seg[k]], &d_vec[h_seg[k+1]]);
 				}
 			}
 		}
